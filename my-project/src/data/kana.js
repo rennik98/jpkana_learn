@@ -1,0 +1,100 @@
+// --- Data: The Basic 46 Kana Characters ---
+export const  kanaData = [
+  { romaji: 'a', hiragana: 'あ', katakana: 'ア' },
+  { romaji: 'i', hiragana: 'い', katakana: 'イ' },
+  { romaji: 'u', hiragana: 'う', katakana: 'ウ' },
+  { romaji: 'e', hiragana: 'え', katakana: 'エ' },
+  { romaji: 'o', hiragana: 'お', katakana: 'オ' },
+  
+  { romaji: 'ka', hiragana: 'か', katakana: 'カ' },
+  { romaji: 'ki', hiragana: 'き', katakana: 'キ' },
+  { romaji: 'ku', hiragana: 'く', katakana: 'ク' },
+  { romaji: 'ke', hiragana: 'け', katakana: 'ケ' },
+  { romaji: 'ko', hiragana: 'こ', katakana: 'コ' },
+  
+  { romaji: 'sa', hiragana: 'さ', katakana: 'サ' },
+  { romaji: 'shi', hiragana: 'し', katakana: 'シ' },
+  { romaji: 'su', hiragana: 'す', katakana: 'ス' },
+  { romaji: 'se', hiragana: 'せ', katakana: 'セ' },
+  { romaji: 'so', hiragana: 'そ', katakana: 'ソ' },
+  
+  { romaji: 'ta', hiragana: 'た', katakana: 'タ' },
+  { romaji: 'chi', hiragana: 'ち', katakana: 'チ' },
+  { romaji: 'tsu', hiragana: 'つ', katakana: 'ツ' },
+  { romaji: 'te', hiragana: 'て', katakana: 'テ' },
+  { romaji: 'to', hiragana: 'と', katakana: 'ト' },
+  
+  { romaji: 'na', hiragana: 'な', katakana: 'ナ' },
+  { romaji: 'ni', hiragana: 'に', katakana: 'ニ' },
+  { romaji: 'nu', hiragana: 'ぬ', katakana: 'ヌ' },
+  { romaji: 'ne', hiragana: 'ね', katakana: 'ネ' },
+  { romaji: 'no', hiragana: 'の', katakana: 'ノ' },
+  
+  { romaji: 'ha', hiragana: 'は', katakana: 'ハ' },
+  { romaji: 'hi', hiragana: 'ひ', katakana: 'ヒ' },
+  { romaji: 'fu', hiragana: 'ふ', katakana: 'フ' },
+  { romaji: 'he', hiragana: 'へ', katakana: 'ヘ' },
+  { romaji: 'ho', hiragana: 'ほ', katakana: 'ホ' },
+  
+  { romaji: 'ma', hiragana: 'ま', katakana: 'マ' },
+  { romaji: 'mi', hiragana: 'み', katakana: 'ミ' },
+  { romaji: 'mu', hiragana: 'む', katakana: 'ム' },
+  { romaji: 'me', hiragana: 'め', katakana: 'メ' },
+  { romaji: 'mo', hiragana: 'も', katakana: 'モ' },
+  
+  { romaji: 'ya', hiragana: 'や', katakana: 'ヤ' },
+  { romaji: 'yu', hiragana: 'ゆ', katakana: 'ユ' },
+  { romaji: 'yo', hiragana: 'よ', katakana: 'ヨ' },
+  
+  { romaji: 'ra', hiragana: 'ら', katakana: 'ラ' },
+  { romaji: 'ri', hiragana: 'り', katakana: 'リ' },
+  { romaji: 'ru', hiragana: 'る', katakana: 'ル' },
+  { romaji: 're', hiragana: 'れ', katakana: 'レ' },
+  { romaji: 'ro', hiragana: 'ろ', katakana: 'ロ' },
+  
+  { romaji: 'wa', hiragana: 'わ', katakana: 'ワ' },
+  { romaji: 'wo', hiragana: 'を', katakana: 'ヲ' },
+  { romaji: 'n', hiragana: 'ん', katakana: 'ン' },
+];
+
+export const KANA_ROWS = [
+  { id: 'a', label: 'A (a, i, u, e, o)', start: 0, end: 5 },
+  { id: 'ka', label: 'Ka (ka, ki, ku...)', start: 5, end: 10 },
+  { id: 'sa', label: 'Sa (sa, shi, su...)', start: 10, end: 15 },
+  { id: 'ta', label: 'Ta (ta, chi, tsu...)', start: 15, end: 20 },
+  { id: 'na', label: 'Na (na, ni, nu...)', start: 20, end: 25 },
+  { id: 'ha', label: 'Ha (ha, hi, fu...)', start: 25, end: 30 },
+  { id: 'ma', label: 'Ma (ma, mi, mu...)', start: 30, end: 35 },
+  { id: 'ya', label: 'Ya (ya, yu, yo)', start: 35, end: 38 },
+  { id: 'ra', label: 'Ra (ra, ri, ru...)', start: 38, end: 43 },
+  { id: 'wa', label: 'Wa (wa, wo, n)', start: 43, end: 46 },
+];
+
+// --- Data: Common Japanese Words ---
+export const INITIAL_WORD_DATA = [
+  { jp: 'こんにちは', en: 'Hello', romaji: 'Konnichiwa' },
+  { jp: 'ありがとう', en: 'Thank you', romaji: 'Arigatou' },
+  { jp: 'ねこ', en: 'Cat', romaji: 'Neko' },
+  { jp: 'いぬ', en: 'Dog', romaji: 'Inu' },
+  { jp: 'とり', en: 'Bird', romaji: 'Tori' },
+  { jp: 'みず', en: 'Water', romaji: 'Mizu' },
+  { jp: 'ほん', en: 'Book', romaji: 'Hon' },
+  { jp: 'にほん', en: 'Japan', romaji: 'Nihon' },
+  { jp: 'はい', en: 'Yes', romaji: 'Hai' },
+  { jp: 'いいえ', en: 'No', romaji: 'Iie' },
+  { jp: 'おはよう', en: 'Good Morning', romaji: 'Ohayou' },
+  { jp: 'おやすみ', en: 'Good Night', romaji: 'Oyasumi' },
+  { jp: 'ともだち', en: 'Friend', romaji: 'Tomodachi' },
+  { jp: 'おいしい', en: 'Delicious', romaji: 'Oishii' },
+  { jp: 'さむらい', en: 'Samurai', romaji: 'Samurai' },
+  { jp: 'すし', en: 'Sushi', romaji: 'Sushi' },
+  { jp: 'せんせい', en: 'Teacher', romaji: 'Sensei' },
+  { jp: 'あい', en: 'Love', romaji: 'Ai' },
+  { jp: 'あか', en: 'Red', romaji: 'Aka' },
+  { jp: 'あお', en: 'Blue', romaji: 'Ao' },
+  { jp: 'さくら', en: 'Cherry Blossom', romaji: 'Sakura' },
+  { jp: 'やま', en: 'Mountain', romaji: 'Yama' },
+  { jp: 'かわ', en: 'River', romaji: 'Kawa' },
+  { jp: 'ひと', en: 'Person', romaji: 'Hito' },
+  { jp: 'なまえ', en: 'Name', romaji: 'Namae' },
+];
