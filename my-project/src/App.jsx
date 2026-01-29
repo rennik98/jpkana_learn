@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X, Keyboard } from 'lucide-react'; // Added Keyboard icon
+import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard } from 'lucide-react';
+
 // Data
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
 
@@ -8,13 +9,11 @@ import SettingsModal from './components/SettingsModal';
 import WordManagerModal from './components/WordManagerModal';
 import WritingPad from './components/WritingPad';
 import WorksheetGame from './components/WorksheetGame';
-import SpeedTypePage from './pages/SpeedTypePage'; // Import the new page
 
 // Pages
 import StudyPage from './pages/StudyPage';
-import QuizPage from './pages/QuizPage';
-import WordQuizPage from './pages/WordQuizPage';
-import WriteQuizPage from './pages/WriteQuizPage';
+import QuizPage from './pages/QuizPage'; // Now acts as the main container
+import SpeedTypePage from './pages/SpeedTypePage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('study'); 
@@ -25,11 +24,11 @@ export default function App() {
   // Settings State
   const [selectedRows, setSelectedRows] = useState(KANA_ROWS.map(r => r.id));
   
-  // Word State (Shared between WordQuiz and Connect game)
+  // Word State
   const [wordList, setWordList] = useState(INITIAL_WORD_DATA);
   const [showWordManager, setShowWordManager] = useState(false);
 
-  // Writing Pad State (Global because it's a modal over everything)
+  // Writing Pad State
   const [writingChar, setWritingChar] = useState(null);
 
   // Computed Active Data
@@ -67,13 +66,11 @@ export default function App() {
     setWritingChar(activeKana[nextIndex]);
   };
 
-  // Navigation Config
- const navItems = [
+  // Navigation Config (Merged Quizzes)
+  const navItems = [
     { id: 'study', icon: BookOpen, label: 'Study' },
-    { id: 'quiz', icon: Brain, label: 'Read Kana' },
-    { id: 'speed', icon: Keyboard, label: 'Speed Type' }, // Add this line
-    { id: 'write-quiz', icon: ClipboardCheck, label: 'Write Kana' },
-    { id: 'word-quiz', icon: Languages, label: 'Words' },
+    { id: 'quiz', icon: Brain, label: 'Quizzes' }, // Merged
+    { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
   ];
 
@@ -159,7 +156,7 @@ export default function App() {
              <p className="text-sm text-slate-400 font-medium">Master your Japanese skills</p>
            </div>
            <div className="flex items-center gap-2 md:gap-4">
-              {['study', 'quiz', 'write-quiz'].includes(activeTab) && (
+              {['study', 'quiz'].includes(activeTab) && (
                  <button onClick={() => setShowSettings(true)} className="flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl md:bg-slate-50 md:hover:bg-slate-100 md:border md:border-slate-200 text-slate-600 font-bold transition-colors">
                     <Settings size={20} /> <span className="hidden md:inline">Filter</span>
                  </button>
@@ -173,26 +170,21 @@ export default function App() {
               {activeTab === 'study' && (
                 <StudyPage activeKana={activeKana} scriptType={scriptType} setWritingChar={setWritingChar} />
               )}
+              
+              {/* Merged Quiz Page */}
               {activeTab === 'quiz' && (
-                <QuizPage activeKana={activeKana} scriptType={scriptType} />
+                <QuizPage 
+                  activeKana={activeKana} 
+                  scriptType={scriptType} 
+                  wordList={wordList}
+                  onManageWords={() => setShowWordManager(true)}
+                />
               )}
-              {/* Add this block */}
+              
               {activeTab === 'speed' && (
-                <SpeedTypePage 
-                   activeKana={activeKana}    // <--- IMPORTANT: Must pass this
-                   scriptType={scriptType}    // <--- IMPORTANT: Must pass this
-                />
+                <SpeedTypePage activeKana={activeKana} scriptType={scriptType} />
               )}
-              {/* End block */}
-              {activeTab === 'word-quiz' && (
-                <WordQuizPage 
-                  wordList={wordList} 
-                  onManageWords={() => setShowWordManager(true)} 
-                />
-              )}
-              {activeTab === 'write-quiz' && (
-                <WriteQuizPage activeKana={activeKana} scriptType={scriptType} />
-              )}
+              
               {activeTab === 'connect' && (
                 <WorksheetGame words={wordList} />
               )}

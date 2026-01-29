@@ -167,3 +167,33 @@ export const INITIAL_WORD_DATA = [
   { jp: 'えいご', en: 'English', romaji: 'Eigo' },
   { jp: 'にほんご', en: 'Japanese language', romaji: 'Nihongo' },
 ];
+
+// --- Data: Numbers ---
+export const NUMBER_DATA = [
+  { value: '0', romaji: 'zero / rei', hiragana: 'ぜろ / れい', katakana: 'ゼロ / レイ' },
+  { value: '1', romaji: 'ichi', hiragana: 'いち', katakana: 'イチ' },
+  { value: '2', romaji: 'ni', hiragana: 'に', katakana: 'ニ' },
+  { value: '3', romaji: 'san', hiragana: 'さん', katakana: 'サン' },
+  { value: '4', romaji: 'yon / shi', hiragana: 'よん / し', katakana: 'ヨン / シ' },
+  { value: '5', romaji: 'go', hiragana: 'ご', katakana: 'ゴ' },
+  { value: '6', romaji: 'roku', hiragana: 'ろく', katakana: 'ロク' },
+  { value: '7', romaji: 'nana / shichi', hiragana: 'なな / しち', katakana: 'ナナ / シチ' },
+  { value: '8', romaji: 'hachi', hiragana: 'はち', katakana: 'ハチ' },
+  { value: '9', romaji: 'kyuu / ku', hiragana: 'きゅう / く', katakana: 'キュウ / ク' },
+  { value: '10', romaji: 'juu', hiragana: 'じゅう', katakana: 'ジュウ' },
+  
+  { value: '11', romaji: 'juu-ichi', hiragana: 'じゅういち', katakana: 'ジュウイチ' },
+  { value: '12', romaji: 'juu-ni', hiragana: 'じゅうに', katakana: 'ジュウニ' },
+  { value: '20', romaji: 'ni-juu', hiragana: 'にじゅう', katakana: 'ニジュウ' },
+  { value: '30', romaji: 'san-juu', hiragana: 'さんじゅう', katakana: 'サンジュウ' },
+  { value: '40', romaji: 'yon-juu', hiragana: 'よんじゅう', katakana: 'ヨンジュウ' },
+  { value: '50', romaji: 'go-juu', hiragana: 'ごじゅう', katakana: 'ゴジュウ' },
+  { value: '60', romaji: 'roku-juu', hiragana: 'ろくじゅう', katakana: 'ロクジュウ' },
+  { value: '70', romaji: 'nana-juu', hiragana: 'ななじゅう', katakana: 'ナナジュウ' },
+  { value: '80', romaji: 'hachi-juu', hiragana: 'はちじゅう', katakana: 'ハチジュウ' },
+  { value: '90', romaji: 'kyuu-juu', hiragana: 'きゅうじゅう', katakana: 'キュウジュウ' },
+  
+  { value: '100', romaji: 'hyaku', hiragana: 'ひゃく', katakana: 'ヒャク' },
+  { value: '1,000', romaji: 'sen', hiragana: 'せん', katakana: 'セン' },
+  { value: '10,000', romaji: 'man', hiragana: 'まん', katakana: 'マン' },
+];
