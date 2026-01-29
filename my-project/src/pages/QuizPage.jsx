@@ -21,13 +21,16 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
   const generateQuestion = () => {
     setFeedback(null);
     setSelectedOption(null);
+    
+    // Safety check for empty data
     const pool = activeKana.length > 0 ? activeKana : kanaData.slice(0, 5);
+    
     const randomIndex = Math.floor(Math.random() * pool.length);
     const correctItem = pool[randomIndex];
     
-    // Distractors
     const distractors = [];
     const distractorPool = pool.length >= 4 ? pool : kanaData;
+
     let attempts = 0;
     while (distractors.length < 3 && attempts < 100) {
       const dIndex = Math.floor(Math.random() * distractorPool.length);
@@ -37,6 +40,7 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
       }
       attempts++;
     }
+    
     const options = [correctItem, ...distractors].sort(() => Math.random() - 0.5);
     setCurrentQuestion({ item: correctItem, options: options });
   };
@@ -76,14 +80,13 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
         <div className="flex-1 bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col min-h-0">
           
           {/* 1. FLEXIBLE TOP SECTION (The Character) */}
-          <div className="flex-1 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative min-h-[160px]">
+          <div className="flex-1 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative min-h-[120px]">
             <span className="text-8xl sm:text-9xl font-medium text-slate-800">
               {scriptType === 'hiragana' ? currentQuestion.item.hiragana : currentQuestion.item.katakana}
             </span>
           </div>
 
           {/* 2. BOTTOM SECTION (Options & Feedback) */}
-          {/* shrink-0 ensures this section doesn't get crushed, but flex-1 on top pushes it down */}
           <div className="p-4 sm:p-6 bg-white shrink-0 flex flex-col gap-4">
             <h3 className="text-center text-slate-400 font-bold uppercase tracking-wider text-xs">
               Select the correct sound
@@ -122,7 +125,7 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
               })}
             </div>
 
-            {/* Feedback Message (Overlays or pushes slightly) */}
+            {/* Feedback Message */}
             <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
                <div className={`p-3 rounded-xl flex items-center justify-between ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
                   <div className="flex items-center gap-2 font-bold">
@@ -144,9 +147,8 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
 };
 
 // --- Main Container Component ---
-const QuizPage = ({ activeKana, scriptType, wordList, onManageWords }) => {
-  const [subTab, setSubTab] = useState('read'); // 'read' | 'write' | 'words'
-
+const QuizPage = ({ activeKana, scriptType, wordList, onManageWords, subTab, setSubTab }) => {
+  
   const getTabClass = (id) => `flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition-all ${
     subTab === id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'
   }`;
@@ -168,7 +170,7 @@ const QuizPage = ({ activeKana, scriptType, wordList, onManageWords }) => {
         </div>
       </div>
 
-      {/* Content Area - Uses flex-1 and min-h-0 to contain children */}
+      {/* Content Area */}
       <div className="flex-1 min-h-0">
         {subTab === 'read' && (
           <ReadQuiz activeKana={activeKana} scriptType={scriptType} />

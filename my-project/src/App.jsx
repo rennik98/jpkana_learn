@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard } from 'lucide-react';
+import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X, Keyboard } from 'lucide-react';
 
 // Data
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
@@ -12,8 +12,8 @@ import WorksheetGame from './components/WorksheetGame';
 
 // Pages
 import StudyPage from './pages/StudyPage';
-import QuizPage from './pages/QuizPage'; // Now acts as the main container
-import SpeedTypePage from './pages/SpeedTypePage';
+import QuizPage from './pages/QuizPage';
+import SpeedTypePage from './pages/SpeedTypePage'; // Ensure this file exists from previous steps
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('study'); 
@@ -21,6 +21,9 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  // Quiz Sub-Tab State (Lifted here to control filter visibility)
+  const [quizSubTab, setQuizSubTab] = useState('read');
+
   // Settings State
   const [selectedRows, setSelectedRows] = useState(KANA_ROWS.map(r => r.id));
   
@@ -66,10 +69,21 @@ export default function App() {
     setWritingChar(activeKana[nextIndex]);
   };
 
-  // Navigation Config (Merged Quizzes)
+  // Logic to determine if Filters/Script Mode should be visible
+  const isControlsVisible = useMemo(() => {
+    if (activeTab === 'study') return true;
+    if (activeTab === 'speed') return true;
+    if (activeTab === 'quiz') {
+      // Hide filters if we are on the 'words' sub-tab
+      return quizSubTab !== 'words';
+    }
+    return false;
+  }, [activeTab, quizSubTab]);
+
+  // Navigation Config (Merged)
   const navItems = [
     { id: 'study', icon: BookOpen, label: 'Study' },
-    { id: 'quiz', icon: Brain, label: 'Quizzes' }, // Merged
+    { id: 'quiz', icon: Brain, label: 'Quizzes' }, // Merged Tab
     { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
   ];
@@ -134,13 +148,17 @@ export default function App() {
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-           <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Script Mode</div>
-           <div className="flex gap-2 bg-slate-200/50 p-1 rounded-xl">
-              <button onClick={() => setScriptType('hiragana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'hiragana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Hiragana</button>
-              <button onClick={() => setScriptType('katakana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'katakana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Katakana</button>
-           </div>
-        </div>
+        
+        {/* Script Mode Toggle (Conditionally Rendered) */}
+        {isControlsVisible && (
+          <div className="p-4 border-t border-slate-100 bg-slate-50/50 animate-fade-in">
+             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Script Mode</div>
+             <div className="flex gap-2 bg-slate-200/50 p-1 rounded-xl">
+                <button onClick={() => setScriptType('hiragana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'hiragana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Hiragana</button>
+                <button onClick={() => setScriptType('katakana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'katakana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Katakana</button>
+             </div>
+          </div>
+        )}
       </aside>
 
       {/* Main Content */}
@@ -156,8 +174,9 @@ export default function App() {
              <p className="text-sm text-slate-400 font-medium">Master your Japanese skills</p>
            </div>
            <div className="flex items-center gap-2 md:gap-4">
-              {['study', 'quiz'].includes(activeTab) && (
-                 <button onClick={() => setShowSettings(true)} className="flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl md:bg-slate-50 md:hover:bg-slate-100 md:border md:border-slate-200 text-slate-600 font-bold transition-colors">
+              {/* Filter Button (Conditionally Rendered) */}
+              {isControlsVisible && (
+                 <button onClick={() => setShowSettings(true)} className="flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl md:bg-slate-50 md:hover:bg-slate-100 md:border md:border-slate-200 text-slate-600 font-bold transition-colors animate-fade-in">
                     <Settings size={20} /> <span className="hidden md:inline">Filter</span>
                  </button>
               )}
@@ -178,6 +197,8 @@ export default function App() {
                   scriptType={scriptType} 
                   wordList={wordList}
                   onManageWords={() => setShowWordManager(true)}
+                  subTab={quizSubTab}
+                  setSubTab={setQuizSubTab}
                 />
               )}
               

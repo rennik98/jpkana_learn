@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, CheckCircle, XCircle, ArrowRight, Settings2 } from 'lucide-react';
+import { Trophy, CheckCircle, XCircle, ArrowRight, Settings2, Gauge } from 'lucide-react';
 import { INITIAL_WORD_DATA } from '../data/kana';
 
 const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
@@ -8,7 +8,10 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
   const [streak, setStreak] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
+  
+  // Settings
   const [mode, setMode] = useState('jp-en'); // 'jp-en' or 'en-jp'
+  const [difficulty, setDifficulty] = useState('easy'); // 'easy' or 'normal'
 
   useEffect(() => {
     generateQuestion();
@@ -67,7 +70,7 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
       
       {/* Header Controls */}
       <div className="flex items-center justify-between px-4 mb-2 shrink-0">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
            <div className="flex flex-col">
              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Score</span>
              <span className="text-xl font-bold text-slate-900 leading-none">{score}</span>
@@ -81,12 +84,27 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
         </div>
         
         <div className="flex gap-2">
+           {/* Difficulty Toggle */}
+           <button 
+             onClick={() => setDifficulty(d => d === 'easy' ? 'normal' : 'easy')}
+             className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border ${
+                difficulty === 'easy' 
+                  ? 'bg-green-50 text-green-700 border-green-200' 
+                  : 'bg-red-50 text-red-700 border-red-200'
+             }`}
+           >
+             <Gauge size={14} />
+             {difficulty === 'easy' ? 'Easy' : 'Normal'}
+           </button>
+
+           {/* Mode Toggle */}
            <button 
              onClick={() => setMode(m => m === 'jp-en' ? 'en-jp' : 'jp-en')}
              className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors"
            >
              {mode === 'jp-en' ? '🇯🇵 → 🇺🇸' : '🇺🇸 → 🇯🇵'}
            </button>
+           
            <button 
              onClick={onManageWords}
              className="p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-lg transition-colors"
@@ -104,7 +122,9 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
             <span className="text-4xl sm:text-6xl font-bold text-slate-800 mb-2">
               {mode === 'jp-en' ? currentQuestion.item.jp : currentQuestion.item.en}
             </span>
-            {mode === 'jp-en' && (
+            
+            {/* Show Romaji only if Mode is JP->EN AND Difficulty is Easy */}
+            {mode === 'jp-en' && difficulty === 'easy' && (
                <span className="text-lg text-slate-400 font-bold">{currentQuestion.item.romaji}</span>
             )}
           </div>
@@ -112,12 +132,24 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
           {/* 2. BOTTOM OPTIONS AREA */}
           <div className="p-4 sm:p-6 bg-white shrink-0 flex flex-col gap-4">
             <h3 className="text-center text-slate-400 font-bold uppercase tracking-wider text-xs">
-              Choose the meaning
+              {mode === 'jp-en' ? 'Choose the meaning' : 'Choose the matching word'}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {currentQuestion.options.map((option, idx) => {
-                const answerText = mode === 'jp-en' ? option.en : `${option.jp} (${option.romaji})`;
+                // Determine Button Text based on Mode and Difficulty
+                let answerText;
+                if (mode === 'jp-en') {
+                    // Answer is English (no romaji needed)
+                    answerText = option.en;
+                } else {
+                    // Answer is Japanese
+                    if (difficulty === 'easy') {
+                        answerText = `${option.jp} (${option.romaji})`;
+                    } else {
+                        answerText = option.jp;
+                    }
+                }
                 
                 let buttonStyle = "bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-600";
                 
