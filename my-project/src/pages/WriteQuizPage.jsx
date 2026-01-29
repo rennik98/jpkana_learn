@@ -12,8 +12,8 @@ const WriteQuizPage = ({ activeKana, scriptType }) => {
   const writeQuizCanvas = useCanvas(writeQuizItem);
 
   useEffect(() => {
-    generateWriteQuiz();
-  }, [activeKana]);
+      generateWriteQuiz();
+    }, [activeKana]);
 
   const generateWriteQuiz = () => {
     const pool = activeKana.length > 0 ? activeKana : kanaData.slice(0, 5);
@@ -23,6 +23,7 @@ const WriteQuizPage = ({ activeKana, scriptType }) => {
     setWriteQuizHint(false);
     if (writeQuizCanvas.clearCanvas) writeQuizCanvas.clearCanvas();
   };
+
 
   const handleWriteQuizGrade = (correct) => {
     if (correct) setWriteQuizScore(s => s + 1);

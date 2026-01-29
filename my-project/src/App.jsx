@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X } from 'lucide-react';
-
+import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X, Keyboard } from 'lucide-react'; // Added Keyboard icon
 // Data
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
 
@@ -9,6 +8,7 @@ import SettingsModal from './components/SettingsModal';
 import WordManagerModal from './components/WordManagerModal';
 import WritingPad from './components/WritingPad';
 import WorksheetGame from './components/WorksheetGame';
+import SpeedTypePage from './pages/SpeedTypePage'; // Import the new page
 
 // Pages
 import StudyPage from './pages/StudyPage';
@@ -68,9 +68,10 @@ export default function App() {
   };
 
   // Navigation Config
-  const navItems = [
+ const navItems = [
     { id: 'study', icon: BookOpen, label: 'Study' },
     { id: 'quiz', icon: Brain, label: 'Read Kana' },
+    { id: 'speed', icon: Keyboard, label: 'Speed Type' }, // Add this line
     { id: 'write-quiz', icon: ClipboardCheck, label: 'Write Kana' },
     { id: 'word-quiz', icon: Languages, label: 'Words' },
     { id: 'connect', icon: Link2, label: 'Connect' },
@@ -175,6 +176,14 @@ export default function App() {
               {activeTab === 'quiz' && (
                 <QuizPage activeKana={activeKana} scriptType={scriptType} />
               )}
+              {/* Add this block */}
+              {activeTab === 'speed' && (
+                <SpeedTypePage 
+                   activeKana={activeKana}    // <--- IMPORTANT: Must pass this
+                   scriptType={scriptType}    // <--- IMPORTANT: Must pass this
+                />
+              )}
+              {/* End block */}
               {activeTab === 'word-quiz' && (
                 <WordQuizPage 
                   wordList={wordList} 
