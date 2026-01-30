@@ -1,105 +1,96 @@
 import React from 'react';
-import { X, Check, CheckCheck, Grid } from 'lucide-react';
+import { Settings, X, CheckSquare, Square, RotateCcw } from 'lucide-react';
 import { KANA_ROWS } from '../data/kana';
 
-export default function SettingsModal({ isOpen, onClose, selectedRows, toggleRow, selectAll, deselectAll }) {
+const SettingsModal = ({ isOpen, onClose, selectedRows, toggleRow, selectAll, deselectAll }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" 
-        onClick={onClose}
-      />
-
-      {/* Modal Content */}
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] border border-slate-200">
         
-        {/* Header */}
-        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-white shrink-0">
+        {/* Header - Matching WordQuizFilter style */}
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-white">
           <div className="flex items-center gap-3">
-             <div className="bg-blue-100 text-blue-600 p-2 rounded-xl">
-               <Grid size={20} />
-             </div>
-             <div>
-               <h2 className="text-lg font-bold text-slate-900">Filter Kana</h2>
-               <p className="text-xs text-slate-500 font-medium">Select rows to study</p>
-             </div>
+            <div className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-100">
+              <Settings size={20} />
+            </div>
+            <div>
+              <h3 className="font-bold text-xl text-slate-900 tracking-tight">Kana Settings</h3>
+              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Character Selection</p>
+            </div>
           </div>
           <button 
-            onClick={onClose}
-            className="p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-full transition-colors"
+            onClick={onClose} 
+            className="p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-900 rounded-xl transition-all"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="p-4 overflow-y-auto flex-1">
-           {/* Quick Actions */}
-           <div className="flex gap-2 mb-4">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          
+          {/* Quick Actions */}
+          <section className="space-y-3">
+            <h4 className="px-1 font-black text-[10px] text-slate-400 uppercase tracking-widest">Bulk Actions</h4>
+            <div className="flex gap-2">
               <button 
                 onClick={selectAll}
-                className="flex-1 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-1.5"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-slate-900 text-white rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-[0.98]"
               >
-                <CheckCheck size={14} /> Select All
+                <CheckSquare size={14} /> Select All
               </button>
               <button 
                 onClick={deselectAll}
-                className="flex-1 py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-1.5"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-100 transition-all active:scale-[0.98]"
               >
-                <X size={14} /> Clear All
+                <RotateCcw size={14} /> Reset
               </button>
-           </div>
+            </div>
+          </section>
 
-           {/* Single Column List */}
-           <div className="grid grid-cols-1 gap-2">
-             {KANA_ROWS.map((row) => {
-               const isSelected = selectedRows.includes(row.id);
-               
-               return (
-                 <button
-                   key={row.id}
-                   onClick={() => toggleRow(row.id)}
-                   className={`
-                     relative flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 border-2
-                     ${isSelected 
-                        ? 'bg-blue-500 border-blue-500 text-white shadow-md shadow-blue-200' 
-                        : 'bg-white border-slate-100 text-slate-400 hover:border-blue-200 hover:bg-blue-50/50'
-                     }
-                   `}
-                 >
-                    <div className="flex items-center gap-3">
-                        <span className={`text-lg font-bold ${isSelected ? 'text-white' : 'text-slate-800'}`}>
-                          {row.label}
-                        </span>
-                        <span className={`text-xs font-bold uppercase tracking-wider ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
-                          {row.romaji}
-                        </span>
+          {/* Row Selection Grid */}
+          <section className="space-y-3">
+            <h4 className="px-1 font-black text-[10px] text-slate-400 uppercase tracking-widest">Select Character Rows</h4>
+            <div className="grid grid-cols-2 gap-2">
+              {KANA_ROWS.map((row) => {
+                const isSelected = selectedRows.includes(row.id);
+                return (
+                  <button
+                    key={row.id}
+                    onClick={() => toggleRow(row.id)}
+                    className={`flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group ${
+                      isSelected 
+                        ? 'bg-red-50 border-red-500 text-red-700 shadow-sm' 
+                        : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'
+                    }`}
+                  >
+                    <div className="flex flex-col items-start">
+                      <span className="text-sm font-black uppercase tracking-tighter">{row.id} Group</span>
+                      <span className={`text-[10px] font-bold ${isSelected ? 'text-red-400' : 'text-slate-300'}`}>
+                        {row.label}
+                      </span>
                     </div>
-                    
-                    {/* Checkmark Icon */}
-                    {isSelected && (
-                      <Check size={18} strokeWidth={3} className="text-white" />
-                    )}
-                 </button>
-               );
-             })}
-           </div>
+                    {isSelected ? <CheckSquare size={18} /> : <Square size={18} className="text-slate-200 group-hover:text-slate-300" />}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end shrink-0">
+        {/* Footer Action */}
+        <div className="p-4 bg-slate-50 border-t border-slate-100">
            <button 
              onClick={onClose}
-             className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg text-sm"
+             className="w-full py-3 bg-white border border-slate-200 rounded-xl text-slate-600 font-bold hover:text-slate-900 hover:border-slate-300 transition-all shadow-sm active:scale-[0.99]"
            >
-             Done
+             Save & Close
            </button>
         </div>
-
       </div>
     </div>
   );
-}
+};
+
+export default SettingsModal;

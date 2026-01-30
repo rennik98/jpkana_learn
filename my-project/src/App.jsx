@@ -17,16 +17,18 @@ import QuizPage from './pages/QuizPage';
 import SpeedTypePage from './pages/SpeedTypePage';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('study'); 
+  const [activeTab, setActiveTab] = useState('study');
   const [scriptType, setScriptType] = useState('hiragana');
-  const [showSettings, setShowSettings] = useState(false); // Global Kana Settings
-  const [showWordSettings, setShowWordSettings] = useState(false); // New: Word Quiz Specific Settings
+  const [showSettings, setShowSettings] = useState(false);
+  const [showWordSettings, setShowWordSettings] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const [quizSubTab, setQuizSubTab] = useState('read');
+  const [studyMode, setStudyMode] = useState('kana');
 
   const [selectedRows, setSelectedRows] = useState(KANA_ROWS.map(r => r.id));
   const [wordList, setWordList] = useState(INITIAL_WORD_DATA);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [showWordManager, setShowWordManager] = useState(false);
   const [writingChar, setWritingChar] = useState(null);
 
@@ -56,21 +58,19 @@ export default function App() {
   const handleWritingNav = (direction) => {
     if (!writingChar) return;
     const currentIndex = activeKana.findIndex(k => k.romaji === writingChar.romaji);
-    if (currentIndex === -1) return; 
+    if (currentIndex === -1) return;
     let nextIndex = currentIndex + direction;
     if (nextIndex >= activeKana.length) nextIndex = 0;
     if (nextIndex < 0) nextIndex = activeKana.length - 1;
     setWritingChar(activeKana[nextIndex]);
   };
 
-  // Logic to determine if any Filter button should be visible
   const isControlsVisible = useMemo(() => {
-    if (activeTab === 'study' || activeTab === 'speed' || activeTab === 'quiz') return true;
-    return false;
+    return ['study', 'speed', 'quiz'].includes(activeTab);
   }, [activeTab]);
 
   const handleFilterClick = () => {
-    if (activeTab === 'quiz' && quizSubTab === 'words') {
+    if ((activeTab === 'quiz' && quizSubTab === 'words') || (activeTab === 'study' && studyMode === 'words')) {
       setShowWordSettings(!showWordSettings);
     } else {
       setShowSettings(true);
@@ -143,8 +143,7 @@ export default function App() {
           ))}
         </nav>
         
-        {/* Hide Script Toggle if on Word Quiz */}
-        {isControlsVisible && (activeTab !== 'quiz' || quizSubTab !== 'words') && (
+        {isControlsVisible && (activeTab !== 'quiz' || quizSubTab !== 'words') && (activeTab !== 'study' || studyMode !== 'words') && (
           <div className="p-4 border-t border-slate-100 bg-slate-50/50 animate-fade-in">
              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Script Mode</div>
              <div className="flex gap-2 bg-slate-200/50 p-1 rounded-xl">
@@ -177,21 +176,35 @@ export default function App() {
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-slate-50/50">
            <div className="max-w-5xl mx-auto min-h-full pb-20 md:pb-0 flex flex-col">
               {activeTab === 'study' && (
-                <StudyPage activeKana={activeKana} scriptType={scriptType} setWritingChar={setWritingChar} />
+                <StudyPage 
+                  studyMode={studyMode}
+                  setStudyMode={setStudyMode}
+                  activeKana={activeKana}
+                  scriptType={scriptType}
+                  setWritingChar={setWritingChar}
+                  wordList={wordList}
+                  onManageWords={() => setShowWordManager(true)}
+                  showSettings={showWordSettings}
+                  setShowSettings={setShowWordSettings}
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                />
               )}
               
               {activeTab === 'lesson' && <LessonPage />}
               
               {activeTab === 'quiz' && (
                 <QuizPage 
-                  activeKana={activeKana} 
-                  scriptType={scriptType} 
+                  activeKana={activeKana}
+                  scriptType={scriptType}
                   wordList={wordList}
                   onManageWords={() => setShowWordManager(true)}
                   subTab={quizSubTab}
                   setSubTab={setQuizSubTab}
-                  showSettings={showWordSettings} // Pass to child
-                  setShowSettings={setShowWordSettings} // Pass to child
+                  showSettings={showWordSettings}
+                  setShowSettings={setShowWordSettings}
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
                 />
               )}
               
@@ -205,28 +218,6 @@ export default function App() {
            </div>
         </main>
       </div>
-
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex">
-          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
-          <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col animate-slide-in-left">
-            <div className="p-6 flex justify-between items-center border-b border-slate-100">
-               <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center text-white font-bold">JP</div>
-                  <h1 className="text-xl font-bold text-slate-900">Kana Dojo</h1>
-               </div>
-               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full"><X size={24} /></button>
-            </div>
-            <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
-               {navItems.map(item => (
-                  <button key={item.id} onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }} className={getNavClass(item.id, true)}>
-                    <item.icon size={24} /> {item.label}
-                  </button>
-               ))}
-            </nav>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

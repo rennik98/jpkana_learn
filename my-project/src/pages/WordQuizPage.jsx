@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Trophy, CheckCircle, XCircle, ArrowRight, RefreshCw, PartyPopper, PlusCircle } from 'lucide-react';
+import { Trophy, CheckCircle, XCircle, ArrowRight, RefreshCw, PartyPopper } from 'lucide-react';
 import { INITIAL_WORD_DATA } from '../data/kana';
+import WordQuizFilter from '../components/WordQuizFilter';
 
 const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSettings, setShowSettings }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -9,13 +10,17 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
   const [feedback, setFeedback] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   
+  // Quiz Configuration States
   const [mode, setMode] = useState('jp-en');
   const [difficulty, setDifficulty] = useState('easy');
   const [uniqueMode, setUniqueMode] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  
+  // Mastery States
   const [masteredIndices, setMasteredIndices] = useState([]); 
   const [showCongrat, setShowCongrat] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // Auto-hide congratulations
   useEffect(() => {
     if (showCongrat) {
       const timer = setTimeout(() => setShowCongrat(false), 1200);
@@ -23,6 +28,7 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
     }
   }, [showCongrat]);
 
+  // Derived Data
   const categories = useMemo(() => {
     return [...new Set(wordList.map(w => w.category || 'General'))].sort();
   }, [wordList]);
@@ -33,6 +39,7 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
     return pool.filter(w => selectedCategories.includes(w.category || 'General'));
   }, [wordList, selectedCategories]);
 
+  // Reset and generate when filters change
   useEffect(() => {
     setMasteredIndices([]);
     generateQuestion();
@@ -101,7 +108,7 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
         </div>
       )}
 
-      {/* QUIZ HEADER: Now only contains Stats */}
+      {/* Stats Header */}
       <header className="flex items-center justify-between px-4 mb-4 shrink-0">
         <div className="flex items-center gap-6">
            <div className="flex flex-col">
@@ -120,76 +127,46 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
            )}
         </div>
 
-        {/* Action Toggles */}
-        <div className="flex items-center gap-2">
-           <button 
-             onClick={() => setUniqueMode(!uniqueMode)}
-             className={`flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl border transition-all font-bold text-xs ${
-               uniqueMode ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-200'
-             }`}
-           >
-             <RefreshCw size={18} className={uniqueMode ? 'animate-spin-slow' : ''} />
-             <span className="hidden md:inline">{uniqueMode ? 'UNIQUE' : 'RANDOM'}</span>
-           </button>
-        </div>
+        <button 
+          onClick={() => setUniqueMode(!uniqueMode)}
+          className={`flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl border transition-all font-bold text-xs ${
+            uniqueMode ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-200'
+          }`}
+        >
+          <RefreshCw size={18} className={uniqueMode ? 'animate-spin-slow' : ''} />
+          <span className="hidden md:inline">{uniqueMode ? 'UNIQUE' : 'RANDOM'}</span>
+        </button>
       </header>
 
-      {/* Settings Dropdown (Controlled by App.jsx button) */}
-      {showSettings && (
-        <div className="absolute top-0 right-4 z-30 bg-white border border-slate-200 shadow-2xl rounded-2xl p-4 w-72 animate-fade-in text-left">
-          <div className="space-y-4">
-            <div>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Management</p>
-              <button 
-                onClick={() => { onManageWords(); setShowSettings(false); }}
-                className="w-full flex items-center justify-between px-3 py-2.5 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors"
-              >
-                <span>Add / Edit Words</span>
-                <PlusCircle size={18} />
-              </button>
-            </div>
-            <hr className="border-slate-100" />
-            <div className="grid grid-cols-2 gap-2">
-               <div>
-                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Quiz Type</p>
-                 <button onClick={() => setMode(m => m === 'jp-en' ? 'en-jp' : 'jp-en')} className="w-full py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold text-slate-600">
-                    {mode === 'jp-en' ? 'JP → EN' : 'EN → JP'}
-                 </button>
-               </div>
-               <div>
-                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Difficulty</p>
-                 <button onClick={() => setDifficulty(d => d === 'easy' ? 'normal' : 'easy')} className={`w-full py-2 border rounded-lg text-xs font-bold transition-all ${difficulty === 'easy' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                    {difficulty === 'easy' ? 'Easy' : 'Hard'}
-                 </button>
-               </div>
-            </div>
-            <div>
-              <div className="flex justify-between items-center mb-2 px-1">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Categories</p>
-                <button onClick={() => setSelectedCategories([])} className="text-[10px] text-red-500 font-bold hover:underline">Reset</button>
-              </div>
-              <div className="space-y-1 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
-                {categories.map(cat => (
-                  <button 
-                    key={cat} 
-                    onClick={() => setSelectedCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat])}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedCategories.includes(cat) ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-600'}`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Separated Filter Component */}
+      <WordQuizFilter 
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        onManageWords={onManageWords}
+        mode={mode}
+        setMode={setMode}
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+        categories={categories}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
 
       {/* Main Quiz Card */}
       {currentQuestion && (
-        <div className="flex-1 bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col min-h-0" onClick={() => setShowSettings(false)}>
+        <div 
+          className="flex-1 bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col min-h-0" 
+          onClick={() => setShowSettings(false)}
+        >
           <div className="flex-1 bg-slate-50 flex flex-col items-center justify-center border-b border-slate-100 relative min-h-[140px] p-6 text-center">
-            <span className="text-5xl sm:text-7xl font-bold text-slate-800 mb-2">{mode === 'jp-en' ? currentQuestion.item.jp : currentQuestion.item.en}</span>
-            {mode === 'jp-en' && difficulty === 'easy' && <span className="text-lg text-slate-400 font-bold tracking-widest uppercase">{currentQuestion.item.romaji}</span>}
+            <span className="text-5xl sm:text-7xl font-bold text-slate-800 mb-2">
+              {mode === 'jp-en' ? currentQuestion.item.jp : currentQuestion.item.en}
+            </span>
+            {mode === 'jp-en' && difficulty === 'easy' && (
+              <span className="text-lg text-slate-400 font-bold tracking-widest uppercase">
+                {currentQuestion.item.romaji}
+              </span>
+            )}
           </div>
           
           <div className="p-4 sm:p-6 bg-white shrink-0 flex flex-col gap-4">
@@ -211,7 +188,12 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
                    }
                 }
                 return (
-                  <button key={idx} onClick={(e) => { e.stopPropagation(); handleAnswer(option); }} disabled={!!feedback} className={`h-14 sm:h-16 px-4 rounded-xl text-lg font-bold transition-all duration-200 flex items-center justify-center ${buttonStyle}`}>
+                  <button 
+                    key={idx} 
+                    onClick={(e) => { e.stopPropagation(); handleAnswer(option); }} 
+                    disabled={!!feedback} 
+                    className={`h-14 sm:h-16 px-4 rounded-xl text-lg font-bold transition-all duration-200 flex items-center justify-center ${buttonStyle}`}
+                  >
                     {answerText}
                   </button>
                 );
@@ -223,7 +205,10 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
                   <div className="flex items-center gap-2 font-bold text-lg">
                     {feedback === 'correct' ? <><CheckCircle size={24} /> Correct!</> : <><XCircle size={24} /> Incorrect</>}
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); generateQuestion(); }} className="px-5 py-2.5 bg-white rounded-xl shadow-md text-sm font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2 text-slate-800">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); generateQuestion(); }} 
+                    className="px-5 py-2.5 bg-white rounded-xl shadow-md text-sm font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2 text-slate-800"
+                  >
                     Next Word <ArrowRight size={16} />
                   </button>
                </div>
