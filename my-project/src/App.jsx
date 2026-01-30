@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X, Keyboard } from 'lucide-react';
+import { BookOpen, Brain, ClipboardCheck, Languages, Link2, Menu, Settings, X, Keyboard, GraduationCap } from 'lucide-react';
 
 // Data
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
@@ -9,32 +9,27 @@ import SettingsModal from './components/SettingsModal';
 import WordManagerModal from './components/WordManagerModal';
 import WritingPad from './components/WritingPad';
 import WorksheetGame from './components/WorksheetGame';
+import LessonPage from './pages/LessonPage';
 
 // Pages
 import StudyPage from './pages/StudyPage';
 import QuizPage from './pages/QuizPage';
-import SpeedTypePage from './pages/SpeedTypePage'; // Ensure this file exists from previous steps
+import SpeedTypePage from './pages/SpeedTypePage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('study'); 
   const [scriptType, setScriptType] = useState('hiragana');
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(false); // Global Kana Settings
+  const [showWordSettings, setShowWordSettings] = useState(false); // New: Word Quiz Specific Settings
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Quiz Sub-Tab State (Lifted here to control filter visibility)
   const [quizSubTab, setQuizSubTab] = useState('read');
 
-  // Settings State
   const [selectedRows, setSelectedRows] = useState(KANA_ROWS.map(r => r.id));
-  
-  // Word State
   const [wordList, setWordList] = useState(INITIAL_WORD_DATA);
   const [showWordManager, setShowWordManager] = useState(false);
-
-  // Writing Pad State
   const [writingChar, setWritingChar] = useState(null);
 
-  // Computed Active Data
   const activeKana = useMemo(() => {
     let result = [];
     KANA_ROWS.forEach(row => {
@@ -45,7 +40,6 @@ export default function App() {
     return result.length > 0 ? result : kanaData.slice(0, 5);
   }, [selectedRows]);
 
-  // Settings Handlers
   const toggleRow = (id) => {
     setSelectedRows(prev => {
       if (prev.includes(id)) {
@@ -69,21 +63,24 @@ export default function App() {
     setWritingChar(activeKana[nextIndex]);
   };
 
-  // Logic to determine if Filters/Script Mode should be visible
+  // Logic to determine if any Filter button should be visible
   const isControlsVisible = useMemo(() => {
-    if (activeTab === 'study') return true;
-    if (activeTab === 'speed') return true;
-    if (activeTab === 'quiz') {
-      // Hide filters if we are on the 'words' sub-tab
-      return quizSubTab !== 'words';
-    }
+    if (activeTab === 'study' || activeTab === 'speed' || activeTab === 'quiz') return true;
     return false;
-  }, [activeTab, quizSubTab]);
+  }, [activeTab]);
 
-  // Navigation Config (Merged)
+  const handleFilterClick = () => {
+    if (activeTab === 'quiz' && quizSubTab === 'words') {
+      setShowWordSettings(!showWordSettings);
+    } else {
+      setShowSettings(true);
+    }
+  };
+
   const navItems = [
     { id: 'study', icon: BookOpen, label: 'Study' },
-    { id: 'quiz', icon: Brain, label: 'Quizzes' }, // Merged Tab
+    { id: 'quiz', icon: Brain, label: 'Quizzes' },
+    { id: 'lesson', icon: GraduationCap, label: 'Lessons' },
     { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
   ];
@@ -98,7 +95,6 @@ export default function App() {
 
   return (
     <div className="flex h-[100dvh] w-full bg-slate-50 text-slate-800 font-sans selection:bg-red-100 overflow-hidden">
-      {/* Global Styles */}
       <style>{`
         html, body, #root { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -107,7 +103,6 @@ export default function App() {
         .animate-slide-in-left { animation: slideInLeft 0.3s ease-out forwards; }
       `}</style>
 
-      {/* Modals */}
       <SettingsModal 
         isOpen={showSettings} 
         onClose={() => setShowSettings(false)}
@@ -135,7 +130,6 @@ export default function App() {
          />
       )}
 
-      {/* Sidebar (Desktop) */}
       <aside className="hidden md:flex w-64 flex-col bg-white border-r border-slate-200 z-20 shrink-0">
         <div className="p-6 flex items-center gap-3">
           <div className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-red-200 shadow-lg">JP</div>
@@ -149,8 +143,8 @@ export default function App() {
           ))}
         </nav>
         
-        {/* Script Mode Toggle (Conditionally Rendered) */}
-        {isControlsVisible && (
+        {/* Hide Script Toggle if on Word Quiz */}
+        {isControlsVisible && (activeTab !== 'quiz' || quizSubTab !== 'words') && (
           <div className="p-4 border-t border-slate-100 bg-slate-50/50 animate-fade-in">
              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Script Mode</div>
              <div className="flex gap-2 bg-slate-200/50 p-1 rounded-xl">
@@ -161,9 +155,7 @@ export default function App() {
         )}
       </aside>
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Header */}
         <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 shrink-0 z-10">
            <div className="flex items-center gap-3 md:hidden">
              <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"><Menu size={24} /></button>
@@ -174,23 +166,22 @@ export default function App() {
              <p className="text-sm text-slate-400 font-medium">Master your Japanese skills</p>
            </div>
            <div className="flex items-center gap-2 md:gap-4">
-              {/* Filter Button (Conditionally Rendered) */}
               {isControlsVisible && (
-                 <button onClick={() => setShowSettings(true)} className="flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl md:bg-slate-50 md:hover:bg-slate-100 md:border md:border-slate-200 text-slate-600 font-bold transition-colors animate-fade-in">
+                 <button onClick={handleFilterClick} className="flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl md:bg-slate-50 md:hover:bg-slate-100 md:border md:border-slate-200 text-slate-600 font-bold transition-colors animate-fade-in">
                     <Settings size={20} /> <span className="hidden md:inline">Filter</span>
                  </button>
               )}
            </div>
         </header>
 
-        {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-slate-50/50">
            <div className="max-w-5xl mx-auto min-h-full pb-20 md:pb-0 flex flex-col">
               {activeTab === 'study' && (
                 <StudyPage activeKana={activeKana} scriptType={scriptType} setWritingChar={setWritingChar} />
               )}
               
-              {/* Merged Quiz Page */}
+              {activeTab === 'lesson' && <LessonPage />}
+              
               {activeTab === 'quiz' && (
                 <QuizPage 
                   activeKana={activeKana} 
@@ -199,6 +190,8 @@ export default function App() {
                   onManageWords={() => setShowWordManager(true)}
                   subTab={quizSubTab}
                   setSubTab={setQuizSubTab}
+                  showSettings={showWordSettings} // Pass to child
+                  setShowSettings={setShowWordSettings} // Pass to child
                 />
               )}
               
@@ -213,7 +206,6 @@ export default function App() {
         </main>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden flex">
           <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />

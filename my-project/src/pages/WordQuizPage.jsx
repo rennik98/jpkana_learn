@@ -1,64 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import { Trophy, CheckCircle, XCircle, ArrowRight, Settings2, Gauge } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Trophy, CheckCircle, XCircle, ArrowRight, RefreshCw, PartyPopper, PlusCircle } from 'lucide-react';
 import { INITIAL_WORD_DATA } from '../data/kana';
 
-const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
+const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSettings, setShowSettings }) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   
-  // Settings
-  const [mode, setMode] = useState('jp-en'); // 'jp-en' or 'en-jp'
-  const [difficulty, setDifficulty] = useState('easy'); // 'easy' or 'normal'
+  const [mode, setMode] = useState('jp-en');
+  const [difficulty, setDifficulty] = useState('easy');
+  const [uniqueMode, setUniqueMode] = useState(false);
+  const [masteredIndices, setMasteredIndices] = useState([]); 
+  const [showCongrat, setShowCongrat] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
+    if (showCongrat) {
+      const timer = setTimeout(() => setShowCongrat(false), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [showCongrat]);
+
+  const categories = useMemo(() => {
+    return [...new Set(wordList.map(w => w.category || 'General'))].sort();
+  }, [wordList]);
+
+  const filteredWords = useMemo(() => {
+    const pool = wordList.length > 0 ? wordList : INITIAL_WORD_DATA;
+    if (selectedCategories.length === 0) return pool;
+    return pool.filter(w => selectedCategories.includes(w.category || 'General'));
+  }, [wordList, selectedCategories]);
+
+  useEffect(() => {
+    setMasteredIndices([]);
     generateQuestion();
-  }, [wordList, mode]);
+  }, [filteredWords, mode, uniqueMode]);
 
   const generateQuestion = () => {
     setFeedback(null);
     setSelectedOption(null);
-    
-    const pool = wordList.length > 0 ? wordList : INITIAL_WORD_DATA;
-    const randomIndex = Math.floor(Math.random() * pool.length);
+    const pool = filteredWords;
+    let availableIndices = pool.map((_, i) => i);
+
+    if (uniqueMode) {
+      availableIndices = availableIndices.filter(i => !masteredIndices.includes(i));
+      if (availableIndices.length === 0 && masteredIndices.length > 0) {
+        setShowCongrat(true);
+        setMasteredIndices([]); 
+        availableIndices = pool.map((_, i) => i);
+      }
+    }
+
+    if (availableIndices.length === 0) return;
+
+    const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
     const correctItem = pool[randomIndex];
     
     const distractors = [];
     const distractorPool = pool.length >= 4 ? pool : INITIAL_WORD_DATA;
-
     let attempts = 0;
     while (distractors.length < 3 && attempts < 100) {
       const dIndex = Math.floor(Math.random() * distractorPool.length);
       const potential = distractorPool[dIndex];
-      // Check uniqueness based on the answer type
-      const isUnique = mode === 'jp-en' 
-         ? potential.en !== correctItem.en 
-         : potential.jp !== correctItem.jp;
-         
-      if (isUnique && !distractors.includes(potential)) {
-        distractors.push(potential);
-      }
+      const isUnique = mode === 'jp-en' ? potential.en !== correctItem.en : potential.jp !== correctItem.jp;
+      if (isUnique && !distractors.includes(potential)) distractors.push(potential);
       attempts++;
     }
     
     const options = [correctItem, ...distractors].sort(() => Math.random() - 0.5);
-    setCurrentQuestion({ item: correctItem, options: options });
+    setCurrentQuestion({ item: correctItem, options, index: randomIndex });
   };
 
   const handleAnswer = (option) => {
     if (feedback) return;
     setSelectedOption(option);
+    const isCorrect = mode === 'jp-en' ? option.en === currentQuestion.item.en : option.jp === currentQuestion.item.jp;
     
-    const isCorrect = mode === 'jp-en' 
-      ? option.en === currentQuestion.item.en
-      : option.jp === currentQuestion.item.jp;
-
     if (isCorrect) {
       setFeedback('correct');
       setScore(s => s + 10);
       setStreak(s => s + 1);
+      if (uniqueMode) setMasteredIndices(prev => [...prev, currentQuestion.index]);
     } else {
       setFeedback('incorrect');
       setStreak(0);
@@ -66,102 +90,117 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto h-full flex flex-col pb-4 animate-fade-in">
+    <div className="w-full max-w-4xl mx-auto h-full flex flex-col pb-4 animate-fade-in relative">
       
-      {/* Header Controls */}
-      <div className="flex items-center justify-between px-4 mb-2 shrink-0">
-        <div className="flex items-center gap-4 sm:gap-6">
+      {uniqueMode && showCongrat && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
+          <div className="bg-slate-900/95 backdrop-blur-md text-white px-8 py-6 rounded-3xl shadow-2xl flex flex-col items-center gap-3 animate-pop-in border border-slate-700">
+            <PartyPopper size={48} className="text-yellow-400 animate-bounce" />
+            <span className="font-bold text-2xl tracking-tight">Set Mastered!</span>
+          </div>
+        </div>
+      )}
+
+      {/* QUIZ HEADER: Now only contains Stats */}
+      <header className="flex items-center justify-between px-4 mb-4 shrink-0">
+        <div className="flex items-center gap-6">
            <div className="flex flex-col">
              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Score</span>
              <span className="text-xl font-bold text-slate-900 leading-none">{score}</span>
            </div>
            <div className="flex flex-col">
-             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-               Streak <Trophy size={10} className="text-yellow-500" />
-             </span>
+             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Streak</span>
              <span className="text-xl font-bold text-orange-500 leading-none">{streak}</span>
            </div>
+           {uniqueMode && (
+             <div className="flex flex-col">
+               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mastery</span>
+               <span className="text-xl font-bold text-blue-600 leading-none">{masteredIndices.length}/{filteredWords.length}</span>
+             </div>
+           )}
         </div>
-        
-        <div className="flex gap-2">
-           {/* Difficulty Toggle */}
+
+        {/* Action Toggles */}
+        <div className="flex items-center gap-2">
            <button 
-             onClick={() => setDifficulty(d => d === 'easy' ? 'normal' : 'easy')}
-             className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border ${
-                difficulty === 'easy' 
-                  ? 'bg-green-50 text-green-700 border-green-200' 
-                  : 'bg-red-50 text-red-700 border-red-200'
+             onClick={() => setUniqueMode(!uniqueMode)}
+             className={`flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl border transition-all font-bold text-xs ${
+               uniqueMode ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-200'
              }`}
            >
-             <Gauge size={14} />
-             {difficulty === 'easy' ? 'Easy' : 'Normal'}
-           </button>
-
-           {/* Mode Toggle */}
-           <button 
-             onClick={() => setMode(m => m === 'jp-en' ? 'en-jp' : 'jp-en')}
-             className="text-xs font-bold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition-colors"
-           >
-             {mode === 'jp-en' ? '🇯🇵 → 🇺🇸' : '🇺🇸 → 🇯🇵'}
-           </button>
-           
-           <button 
-             onClick={onManageWords}
-             className="p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-lg transition-colors"
-           >
-             <Settings2 size={18} />
+             <RefreshCw size={18} className={uniqueMode ? 'animate-spin-slow' : ''} />
+             <span className="hidden md:inline">{uniqueMode ? 'UNIQUE' : 'RANDOM'}</span>
            </button>
         </div>
-      </div>
+      </header>
 
-      {currentQuestion && (
-        <div className="flex-1 bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col min-h-0">
-          
-          {/* 1. FLEXIBLE QUESTION AREA */}
-          <div className="flex-1 bg-slate-50 flex flex-col items-center justify-center border-b border-slate-100 relative min-h-[120px] p-6 text-center">
-            <span className="text-4xl sm:text-6xl font-bold text-slate-800 mb-2">
-              {mode === 'jp-en' ? currentQuestion.item.jp : currentQuestion.item.en}
-            </span>
-            
-            {/* Show Romaji only if Mode is JP->EN AND Difficulty is Easy */}
-            {mode === 'jp-en' && difficulty === 'easy' && (
-               <span className="text-lg text-slate-400 font-bold">{currentQuestion.item.romaji}</span>
-            )}
+      {/* Settings Dropdown (Controlled by App.jsx button) */}
+      {showSettings && (
+        <div className="absolute top-0 right-4 z-30 bg-white border border-slate-200 shadow-2xl rounded-2xl p-4 w-72 animate-fade-in text-left">
+          <div className="space-y-4">
+            <div>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Management</p>
+              <button 
+                onClick={() => { onManageWords(); setShowSettings(false); }}
+                className="w-full flex items-center justify-between px-3 py-2.5 bg-slate-900 text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-colors"
+              >
+                <span>Add / Edit Words</span>
+                <PlusCircle size={18} />
+              </button>
+            </div>
+            <hr className="border-slate-100" />
+            <div className="grid grid-cols-2 gap-2">
+               <div>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Quiz Type</p>
+                 <button onClick={() => setMode(m => m === 'jp-en' ? 'en-jp' : 'jp-en')} className="w-full py-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold text-slate-600">
+                    {mode === 'jp-en' ? 'JP → EN' : 'EN → JP'}
+                 </button>
+               </div>
+               <div>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Difficulty</p>
+                 <button onClick={() => setDifficulty(d => d === 'easy' ? 'normal' : 'easy')} className={`w-full py-2 border rounded-lg text-xs font-bold transition-all ${difficulty === 'easy' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                    {difficulty === 'easy' ? 'Easy' : 'Hard'}
+                 </button>
+               </div>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-2 px-1">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Categories</p>
+                <button onClick={() => setSelectedCategories([])} className="text-[10px] text-red-500 font-bold hover:underline">Reset</button>
+              </div>
+              <div className="space-y-1 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+                {categories.map(cat => (
+                  <button 
+                    key={cat} 
+                    onClick={() => setSelectedCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat])}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all ${selectedCategories.includes(cat) ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-600'}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
+        </div>
+      )}
 
-          {/* 2. BOTTOM OPTIONS AREA */}
+      {/* Main Quiz Card */}
+      {currentQuestion && (
+        <div className="flex-1 bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col min-h-0" onClick={() => setShowSettings(false)}>
+          <div className="flex-1 bg-slate-50 flex flex-col items-center justify-center border-b border-slate-100 relative min-h-[140px] p-6 text-center">
+            <span className="text-5xl sm:text-7xl font-bold text-slate-800 mb-2">{mode === 'jp-en' ? currentQuestion.item.jp : currentQuestion.item.en}</span>
+            {mode === 'jp-en' && difficulty === 'easy' && <span className="text-lg text-slate-400 font-bold tracking-widest uppercase">{currentQuestion.item.romaji}</span>}
+          </div>
+          
           <div className="p-4 sm:p-6 bg-white shrink-0 flex flex-col gap-4">
-            <h3 className="text-center text-slate-400 font-bold uppercase tracking-wider text-xs">
-              {mode === 'jp-en' ? 'Choose the meaning' : 'Choose the matching word'}
-            </h3>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {currentQuestion.options.map((option, idx) => {
-                // Determine Button Text based on Mode and Difficulty
-                let answerText;
-                if (mode === 'jp-en') {
-                    // Answer is English (no romaji needed)
-                    answerText = option.en;
-                } else {
-                    // Answer is Japanese
-                    if (difficulty === 'easy') {
-                        answerText = `${option.jp} (${option.romaji})`;
-                    } else {
-                        answerText = option.jp;
-                    }
-                }
-                
+                let answerText = mode === 'jp-en' ? option.en : (difficulty === 'easy' ? `${option.jp} (${option.romaji})` : option.jp);
                 let buttonStyle = "bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-600";
                 
                 if (feedback) {
-                   const isCorrectOpt = mode === 'jp-en' 
-                      ? option.en === currentQuestion.item.en 
-                      : option.jp === currentQuestion.item.jp;
-                   
-                   const isSelected = mode === 'jp-en'
-                      ? selectedOption?.en === option.en
-                      : selectedOption?.jp === option.jp;
-
+                   const isCorrectOpt = mode === 'jp-en' ? option.en === currentQuestion.item.en : option.jp === currentQuestion.item.jp;
+                   const isSelected = selectedOption === option;
                    if (feedback === 'correct') {
                      if (isCorrectOpt) buttonStyle = "bg-green-50 border-2 border-green-500 text-green-700 shadow-sm";
                      else buttonStyle = "opacity-40 border-slate-100 bg-slate-50";
@@ -171,31 +210,21 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords }) => {
                      else buttonStyle = "opacity-40 border-slate-100 bg-slate-50";
                    }
                 }
-
                 return (
-                  <button
-                    key={idx}
-                    onClick={() => handleAnswer(option)}
-                    disabled={!!feedback}
-                    className={`h-14 sm:h-16 px-4 rounded-xl text-lg font-bold transition-all duration-200 flex items-center justify-center ${buttonStyle}`}
-                  >
+                  <button key={idx} onClick={(e) => { e.stopPropagation(); handleAnswer(option); }} disabled={!!feedback} className={`h-14 sm:h-16 px-4 rounded-xl text-lg font-bold transition-all duration-200 flex items-center justify-center ${buttonStyle}`}>
                     {answerText}
                   </button>
                 );
               })}
             </div>
 
-            {/* Feedback Message */}
-            <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
-               <div className={`p-3 rounded-xl flex items-center justify-between ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
-                  <div className="flex items-center gap-2 font-bold">
-                    {feedback === 'correct' ? <><CheckCircle size={20} /> Correct!</> : <><XCircle size={20} /> Incorrect</>}
+            <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+               <div className={`p-4 rounded-2xl flex items-center justify-between ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
+                  <div className="flex items-center gap-2 font-bold text-lg">
+                    {feedback === 'correct' ? <><CheckCircle size={24} /> Correct!</> : <><XCircle size={24} /> Incorrect</>}
                   </div>
-                  <button 
-                    onClick={generateQuestion}
-                    className="px-4 py-2 bg-white rounded-lg shadow-sm text-sm font-bold hover:shadow-md transition-all flex items-center gap-2 text-slate-800"
-                  >
-                    Next <ArrowRight size={14} />
+                  <button onClick={(e) => { e.stopPropagation(); generateQuestion(); }} className="px-5 py-2.5 bg-white rounded-xl shadow-md text-sm font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2 text-slate-800">
+                    Next Word <ArrowRight size={16} />
                   </button>
                </div>
             </div>
