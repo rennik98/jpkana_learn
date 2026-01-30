@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, CheckCircle, XCircle, ArrowRight, Brain, ClipboardCheck, Languages } from 'lucide-react';
+import { Trophy, CheckCircle, XCircle, ArrowRight, Brain, ClipboardCheck, Languages, Quote } from 'lucide-react';
 import { kanaData } from '../data/kana';
 
 // Import Sibling Pages
 import WriteQuizPage from './WriteQuizPage';
 import WordQuizPage from './WordQuizPage';
+import SentenceQuizPage from './SentenceQuizPage';
 
 // --- Internal Component: Read Quiz ---
 const ReadQuiz = ({ activeKana, scriptType }) => {
@@ -167,6 +168,9 @@ const QuizPage = ({ activeKana, scriptType, wordList, onManageWords, subTab, set
           <button onClick={() => setSubTab('words')} className={getTabClass('words')}>
             <Languages size={16} /> Words
           </button>
+          <button onClick={() => setSubTab('sentences')} className={getTabClass('sentences')}>
+            <Quote size={16} /> Sentences
+          </button>
         </div>
       </div>
 
@@ -180,6 +184,9 @@ const QuizPage = ({ activeKana, scriptType, wordList, onManageWords, subTab, set
         )}
         {subTab === 'words' && (
           <WordQuizPage wordList={wordList} onManageWords={onManageWords} />
+        )}
+        {subTab === 'sentences' && (
+          <SentenceQuizPage />
         )}
       </div>
     </div>

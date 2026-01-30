@@ -197,3 +197,34 @@ export const NUMBER_DATA = [
   { value: '1,000', romaji: 'sen', hiragana: 'せん', katakana: 'セン' },
   { value: '10,000', romaji: 'man', hiragana: 'まん', katakana: 'マン' },
 ];
+
+// --- Data: Fill-in-the-blank Sentences ---
+export const SENTENCE_DATA = [
+  { 
+    sentence: "わたしは ___ をたべます。", 
+    answer: "ごはん", 
+    romaji: "Gohan",
+    translation: "I eat rice/meal.",
+    easyTranslation: "I eat ___.", // Context for Easy Mode
+    targetMeaning: "rice / meal", 
+    distractors: ["みず", "ほん", "いえ"] 
+  },
+  { 
+    sentence: "これは ___ ですか？", 
+    answer: "なん", 
+    romaji: "Nan",
+    translation: "What is this?",
+    easyTranslation: "___ is this?",
+    targetMeaning: "what", 
+    distractors: ["だれ", "どこ", "いつ"] 
+  },
+  { 
+    sentence: "きょうは ___ です。", 
+    answer: "あつい", 
+    romaji: "Atsui",
+    translation: "Today is hot.",
+    easyTranslation: "Today is ___.",
+    targetMeaning: "hot", 
+    distractors: ["さむい", "おいしい", "はやい"] 
+  }
+];
