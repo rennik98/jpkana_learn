@@ -99,7 +99,7 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
         </div>
       )}
 
-      <div className="flex items-center justify-between px-4 mb-2 shrink-0">
+      <div className="flex items-center justify-between px-4 mb-4 shrink-0">
          <div className="flex items-center gap-6">
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Score</span>
@@ -155,10 +155,10 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
                 );
               })}
             </div>
-            <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
-               <div className={`p-3 rounded-xl flex items-center justify-between ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
-                  <div className="flex items-center gap-2 font-bold">{feedback === 'correct' ? <CheckCircle size={20} /> : <XCircle size={20} />} {feedback === 'correct' ? 'Correct!' : 'Incorrect'}</div>
-                  <button onClick={generateQuestion} className="px-4 py-2 bg-white rounded-lg shadow-sm text-sm font-bold hover:shadow-md transition-all flex items-center gap-2 text-slate-800">Next <ArrowRight size={14} /></button>
+            <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'}`}>
+               <div className={`p-4 rounded-2xl flex items-center justify-between ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
+                  <div className="flex items-center gap-2 font-bold text-lg">{feedback === 'correct' ? <CheckCircle size={20} /> : <XCircle size={20} />} {feedback === 'correct' ? 'Correct!' : 'Incorrect'}</div>
+                  <button onClick={generateQuestion} className="px-5 py-2.5 bg-white rounded-xl shadow-md text-sm font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2 text-slate-800">Next <ArrowRight size={14} /></button>
                </div>
             </div>
           </div>
@@ -170,12 +170,12 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
 
 // Main Container
 const QuizPage = ({ activeKana, scriptType, wordList, onManageWords, subTab, setSubTab, showSettings, setShowSettings }) => {
-  const getTabClass = (id) => `flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-sm transition-all ${subTab === id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`;
+  const getTabClass = (id) => `flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2.5 rounded-xl font-bold text-sm transition-all ${subTab === id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`;
 
   return (
     <div className="h-full flex flex-col animate-fade-in">
       <div className="flex justify-center mb-4 shrink-0">
-        <div className="bg-white p-1 rounded-xl shadow-sm border border-slate-100 flex gap-1">
+        <div className="bg-white p-1 rounded-2xl shadow-sm border border-slate-100 flex gap-1">
           <button onClick={() => setSubTab('read')} className={getTabClass('read')}><Brain size={16} /><span className="hidden sm:inline">Read</span></button>
           <button onClick={() => setSubTab('write')} className={getTabClass('write')}><ClipboardCheck size={16} /><span className="hidden sm:inline">Write</span></button>
           <button onClick={() => setSubTab('words')} className={getTabClass('words')}><Languages size={16} /><span className="hidden sm:inline">Words</span></button>

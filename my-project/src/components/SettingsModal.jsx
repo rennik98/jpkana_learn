@@ -49,34 +49,43 @@ const SettingsModal = ({ isOpen, onClose, selectedRows, toggleRow, selectAll, de
             </div>
           </section>
 
-          {/* Row Selection Grid */}
-          <section className="space-y-3">
-            <h4 className="px-1 font-black text-[10px] text-slate-400 uppercase tracking-widest">Select Character Rows</h4>
-            <div className="grid grid-cols-2 gap-2">
-              {KANA_ROWS.map((row) => {
-                const isSelected = selectedRows.includes(row.id);
-                return (
-                  <button
-                    key={row.id}
-                    onClick={() => toggleRow(row.id)}
-                    className={`flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group ${
-                      isSelected 
-                        ? 'bg-red-50 border-red-500 text-red-700 shadow-sm' 
-                        : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'
-                    }`}
-                  >
-                    <div className="flex flex-col items-start">
-                      <span className="text-sm font-black uppercase tracking-tighter">{row.id} Group</span>
-                      <span className={`text-[10px] font-bold ${isSelected ? 'text-red-400' : 'text-slate-300'}`}>
-                        {row.label}
-                      </span>
-                    </div>
-                    {isSelected ? <CheckSquare size={18} /> : <Square size={18} className="text-slate-200 group-hover:text-slate-300" />}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+          {/* Row Selection — grouped by section */}
+          {[
+            { key: 'basic',   label: 'พื้นฐาน — Basic' },
+            { key: 'dakuten', label: 'เสียงขุ่น — Voiced (dakuten)' },
+            { key: 'youon',   label: 'เสียงควบ — Compound (youon)' },
+          ].map(({ key, label }) => {
+            const rows = KANA_ROWS.filter(r => r.section === key);
+            return (
+              <section key={key} className="space-y-3">
+                <h4 className="px-1 font-black text-[10px] text-slate-400 uppercase tracking-widest">{label}</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {rows.map((row) => {
+                    const isSelected = selectedRows.includes(row.id);
+                    return (
+                      <button
+                        key={row.id}
+                        onClick={() => toggleRow(row.id)}
+                        className={`flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 group ${
+                          isSelected
+                            ? 'bg-red-50 border-red-500 text-red-700 shadow-sm'
+                            : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'
+                        }`}
+                      >
+                        <div className="flex flex-col items-start">
+                          <span className="text-sm font-black uppercase tracking-tighter">{row.id} Group</span>
+                          <span className={`text-[10px] font-bold ${isSelected ? 'text-red-400' : 'text-slate-300'}`}>
+                            {row.label}
+                          </span>
+                        </div>
+                        {isSelected ? <CheckSquare size={18} /> : <Square size={18} className="text-slate-200 group-hover:text-slate-300" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
         </div>
 
         {/* Footer Action */}

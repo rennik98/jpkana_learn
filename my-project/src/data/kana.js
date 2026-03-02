@@ -1,73 +1,171 @@
-// --- Data: The Basic 46 Kana Characters ---
-export const  kanaData = [
-  { romaji: 'a', hiragana: 'あ', katakana: 'ア' },
-  { romaji: 'i', hiragana: 'い', katakana: 'イ' },
-  { romaji: 'u', hiragana: 'う', katakana: 'ウ' },
-  { romaji: 'e', hiragana: 'え', katakana: 'エ' },
-  { romaji: 'o', hiragana: 'お', katakana: 'オ' },
-  
-  { romaji: 'ka', hiragana: 'か', katakana: 'カ' },
-  { romaji: 'ki', hiragana: 'き', katakana: 'キ' },
-  { romaji: 'ku', hiragana: 'く', katakana: 'ク' },
-  { romaji: 'ke', hiragana: 'け', katakana: 'ケ' },
-  { romaji: 'ko', hiragana: 'こ', katakana: 'コ' },
-  
-  { romaji: 'sa', hiragana: 'さ', katakana: 'サ' },
-  { romaji: 'shi', hiragana: 'し', katakana: 'シ' },
-  { romaji: 'su', hiragana: 'す', katakana: 'ス' },
-  { romaji: 'se', hiragana: 'せ', katakana: 'セ' },
-  { romaji: 'so', hiragana: 'そ', katakana: 'ソ' },
-  
-  { romaji: 'ta', hiragana: 'た', katakana: 'タ' },
-  { romaji: 'chi', hiragana: 'ち', katakana: 'チ' },
-  { romaji: 'tsu', hiragana: 'つ', katakana: 'ツ' },
-  { romaji: 'te', hiragana: 'て', katakana: 'テ' },
-  { romaji: 'to', hiragana: 'と', katakana: 'ト' },
-  
-  { romaji: 'na', hiragana: 'な', katakana: 'ナ' },
-  { romaji: 'ni', hiragana: 'に', katakana: 'ニ' },
-  { romaji: 'nu', hiragana: 'ぬ', katakana: 'ヌ' },
-  { romaji: 'ne', hiragana: 'ね', katakana: 'ネ' },
-  { romaji: 'no', hiragana: 'の', katakana: 'ノ' },
-  
-  { romaji: 'ha', hiragana: 'は', katakana: 'ハ' },
-  { romaji: 'hi', hiragana: 'ひ', katakana: 'ヒ' },
-  { romaji: 'fu', hiragana: 'ふ', katakana: 'フ' },
-  { romaji: 'he', hiragana: 'へ', katakana: 'ヘ' },
-  { romaji: 'ho', hiragana: 'ほ', katakana: 'ホ' },
-  
-  { romaji: 'ma', hiragana: 'ま', katakana: 'マ' },
-  { romaji: 'mi', hiragana: 'み', katakana: 'ミ' },
-  { romaji: 'mu', hiragana: 'む', katakana: 'ム' },
-  { romaji: 'me', hiragana: 'め', katakana: 'メ' },
-  { romaji: 'mo', hiragana: 'も', katakana: 'モ' },
-  
-  { romaji: 'ya', hiragana: 'や', katakana: 'ヤ' },
-  { romaji: 'yu', hiragana: 'ゆ', katakana: 'ユ' },
-  { romaji: 'yo', hiragana: 'よ', katakana: 'ヨ' },
-  
-  { romaji: 'ra', hiragana: 'ら', katakana: 'ラ' },
-  { romaji: 'ri', hiragana: 'り', katakana: 'リ' },
-  { romaji: 'ru', hiragana: 'る', katakana: 'ル' },
-  { romaji: 're', hiragana: 'れ', katakana: 'レ' },
-  { romaji: 'ro', hiragana: 'ろ', katakana: 'ロ' },
-  
-  { romaji: 'wa', hiragana: 'わ', katakana: 'ワ' },
-  { romaji: 'wo', hiragana: 'を', katakana: 'ヲ' },
-  { romaji: 'n', hiragana: 'ん', katakana: 'ン' },
+// --- Data: Basic 46 + Dakuten + Youon Kana ---
+export const kanaData = [
+  // พื้นฐาน — Basic (indices 0–45)
+  { romaji: 'a',   hiragana: 'あ', katakana: 'ア', section: 'basic' },
+  { romaji: 'i',   hiragana: 'い', katakana: 'イ', section: 'basic' },
+  { romaji: 'u',   hiragana: 'う', katakana: 'ウ', section: 'basic' },
+  { romaji: 'e',   hiragana: 'え', katakana: 'エ', section: 'basic' },
+  { romaji: 'o',   hiragana: 'お', katakana: 'オ', section: 'basic' },
+
+  { romaji: 'ka',  hiragana: 'か', katakana: 'カ', section: 'basic' },
+  { romaji: 'ki',  hiragana: 'き', katakana: 'キ', section: 'basic' },
+  { romaji: 'ku',  hiragana: 'く', katakana: 'ク', section: 'basic' },
+  { romaji: 'ke',  hiragana: 'け', katakana: 'ケ', section: 'basic' },
+  { romaji: 'ko',  hiragana: 'こ', katakana: 'コ', section: 'basic' },
+
+  { romaji: 'sa',  hiragana: 'さ', katakana: 'サ', section: 'basic' },
+  { romaji: 'shi', hiragana: 'し', katakana: 'シ', section: 'basic' },
+  { romaji: 'su',  hiragana: 'す', katakana: 'ス', section: 'basic' },
+  { romaji: 'se',  hiragana: 'せ', katakana: 'セ', section: 'basic' },
+  { romaji: 'so',  hiragana: 'そ', katakana: 'ソ', section: 'basic' },
+
+  { romaji: 'ta',  hiragana: 'た', katakana: 'タ', section: 'basic' },
+  { romaji: 'chi', hiragana: 'ち', katakana: 'チ', section: 'basic' },
+  { romaji: 'tsu', hiragana: 'つ', katakana: 'ツ', section: 'basic' },
+  { romaji: 'te',  hiragana: 'て', katakana: 'テ', section: 'basic' },
+  { romaji: 'to',  hiragana: 'と', katakana: 'ト', section: 'basic' },
+
+  { romaji: 'na',  hiragana: 'な', katakana: 'ナ', section: 'basic' },
+  { romaji: 'ni',  hiragana: 'に', katakana: 'ニ', section: 'basic' },
+  { romaji: 'nu',  hiragana: 'ぬ', katakana: 'ヌ', section: 'basic' },
+  { romaji: 'ne',  hiragana: 'ね', katakana: 'ネ', section: 'basic' },
+  { romaji: 'no',  hiragana: 'の', katakana: 'ノ', section: 'basic' },
+
+  { romaji: 'ha',  hiragana: 'は', katakana: 'ハ', section: 'basic' },
+  { romaji: 'hi',  hiragana: 'ひ', katakana: 'ヒ', section: 'basic' },
+  { romaji: 'fu',  hiragana: 'ふ', katakana: 'フ', section: 'basic' },
+  { romaji: 'he',  hiragana: 'へ', katakana: 'ヘ', section: 'basic' },
+  { romaji: 'ho',  hiragana: 'ほ', katakana: 'ホ', section: 'basic' },
+
+  { romaji: 'ma',  hiragana: 'ま', katakana: 'マ', section: 'basic' },
+  { romaji: 'mi',  hiragana: 'み', katakana: 'ミ', section: 'basic' },
+  { romaji: 'mu',  hiragana: 'む', katakana: 'ム', section: 'basic' },
+  { romaji: 'me',  hiragana: 'め', katakana: 'メ', section: 'basic' },
+  { romaji: 'mo',  hiragana: 'も', katakana: 'モ', section: 'basic' },
+
+  { romaji: 'ya',  hiragana: 'や', katakana: 'ヤ', section: 'basic' },
+  { romaji: 'yu',  hiragana: 'ゆ', katakana: 'ユ', section: 'basic' },
+  { romaji: 'yo',  hiragana: 'よ', katakana: 'ヨ', section: 'basic' },
+
+  { romaji: 'ra',  hiragana: 'ら', katakana: 'ラ', section: 'basic' },
+  { romaji: 'ri',  hiragana: 'り', katakana: 'リ', section: 'basic' },
+  { romaji: 'ru',  hiragana: 'る', katakana: 'ル', section: 'basic' },
+  { romaji: 're',  hiragana: 'れ', katakana: 'レ', section: 'basic' },
+  { romaji: 'ro',  hiragana: 'ろ', katakana: 'ロ', section: 'basic' },
+
+  { romaji: 'wa',  hiragana: 'わ', katakana: 'ワ', section: 'basic' },
+  { romaji: 'wo',  hiragana: 'を', katakana: 'ヲ', section: 'basic' },
+  { romaji: 'n',   hiragana: 'ん', katakana: 'ン', section: 'basic' },
+
+  // เสียงขุ่น — Dakuten (voiced) · indices 46–70
+  { romaji: 'ga',  hiragana: 'が', katakana: 'ガ', section: 'dakuten' },
+  { romaji: 'gi',  hiragana: 'ぎ', katakana: 'ギ', section: 'dakuten' },
+  { romaji: 'gu',  hiragana: 'ぐ', katakana: 'グ', section: 'dakuten' },
+  { romaji: 'ge',  hiragana: 'げ', katakana: 'ゲ', section: 'dakuten' },
+  { romaji: 'go',  hiragana: 'ご', katakana: 'ゴ', section: 'dakuten' },
+
+  { romaji: 'za',  hiragana: 'ざ', katakana: 'ザ', section: 'dakuten' },
+  { romaji: 'ji',  hiragana: 'じ', katakana: 'ジ', section: 'dakuten' },
+  { romaji: 'zu',  hiragana: 'ず', katakana: 'ズ', section: 'dakuten' },
+  { romaji: 'ze',  hiragana: 'ぜ', katakana: 'ゼ', section: 'dakuten' },
+  { romaji: 'zo',  hiragana: 'ぞ', katakana: 'ゾ', section: 'dakuten' },
+
+  { romaji: 'da',  hiragana: 'だ', katakana: 'ダ', section: 'dakuten' },
+  { romaji: 'di',  hiragana: 'ぢ', katakana: 'ヂ', section: 'dakuten' },
+  { romaji: 'du',  hiragana: 'づ', katakana: 'ヅ', section: 'dakuten' },
+  { romaji: 'de',  hiragana: 'で', katakana: 'デ', section: 'dakuten' },
+  { romaji: 'do',  hiragana: 'ど', katakana: 'ド', section: 'dakuten' },
+
+  { romaji: 'ba',  hiragana: 'ば', katakana: 'バ', section: 'dakuten' },
+  { romaji: 'bi',  hiragana: 'び', katakana: 'ビ', section: 'dakuten' },
+  { romaji: 'bu',  hiragana: 'ぶ', katakana: 'ブ', section: 'dakuten' },
+  { romaji: 'be',  hiragana: 'べ', katakana: 'ベ', section: 'dakuten' },
+  { romaji: 'bo',  hiragana: 'ぼ', katakana: 'ボ', section: 'dakuten' },
+
+  { romaji: 'pa',  hiragana: 'ぱ', katakana: 'パ', section: 'dakuten' },
+  { romaji: 'pi',  hiragana: 'ぴ', katakana: 'ピ', section: 'dakuten' },
+  { romaji: 'pu',  hiragana: 'ぷ', katakana: 'プ', section: 'dakuten' },
+  { romaji: 'pe',  hiragana: 'ぺ', katakana: 'ペ', section: 'dakuten' },
+  { romaji: 'po',  hiragana: 'ぽ', katakana: 'ポ', section: 'dakuten' },
+
+  // เสียงควบ — Youon (compound) · indices 71–103
+  { romaji: 'kya', hiragana: 'きゃ', katakana: 'キャ', section: 'youon' },
+  { romaji: 'kyu', hiragana: 'きゅ', katakana: 'キュ', section: 'youon' },
+  { romaji: 'kyo', hiragana: 'きょ', katakana: 'キョ', section: 'youon' },
+
+  { romaji: 'sha', hiragana: 'しゃ', katakana: 'シャ', section: 'youon' },
+  { romaji: 'shu', hiragana: 'しゅ', katakana: 'シュ', section: 'youon' },
+  { romaji: 'sho', hiragana: 'しょ', katakana: 'ショ', section: 'youon' },
+
+  { romaji: 'cha', hiragana: 'ちゃ', katakana: 'チャ', section: 'youon' },
+  { romaji: 'chu', hiragana: 'ちゅ', katakana: 'チュ', section: 'youon' },
+  { romaji: 'cho', hiragana: 'ちょ', katakana: 'チョ', section: 'youon' },
+
+  { romaji: 'nya', hiragana: 'にゃ', katakana: 'ニャ', section: 'youon' },
+  { romaji: 'nyu', hiragana: 'にゅ', katakana: 'ニュ', section: 'youon' },
+  { romaji: 'nyo', hiragana: 'にょ', katakana: 'ニョ', section: 'youon' },
+
+  { romaji: 'hya', hiragana: 'ひゃ', katakana: 'ヒャ', section: 'youon' },
+  { romaji: 'hyu', hiragana: 'ひゅ', katakana: 'ヒュ', section: 'youon' },
+  { romaji: 'hyo', hiragana: 'ひょ', katakana: 'ヒョ', section: 'youon' },
+
+  { romaji: 'mya', hiragana: 'みゃ', katakana: 'ミャ', section: 'youon' },
+  { romaji: 'myu', hiragana: 'みゅ', katakana: 'ミュ', section: 'youon' },
+  { romaji: 'myo', hiragana: 'みょ', katakana: 'ミョ', section: 'youon' },
+
+  { romaji: 'rya', hiragana: 'りゃ', katakana: 'リャ', section: 'youon' },
+  { romaji: 'ryu', hiragana: 'りゅ', katakana: 'リュ', section: 'youon' },
+  { romaji: 'ryo', hiragana: 'りょ', katakana: 'リョ', section: 'youon' },
+
+  { romaji: 'gya', hiragana: 'ぎゃ', katakana: 'ギャ', section: 'youon' },
+  { romaji: 'gyu', hiragana: 'ぎゅ', katakana: 'ギュ', section: 'youon' },
+  { romaji: 'gyo', hiragana: 'ぎょ', katakana: 'ギョ', section: 'youon' },
+
+  { romaji: 'ja',  hiragana: 'じゃ', katakana: 'ジャ', section: 'youon' },
+  { romaji: 'ju',  hiragana: 'じゅ', katakana: 'ジュ', section: 'youon' },
+  { romaji: 'jo',  hiragana: 'じょ', katakana: 'ジョ', section: 'youon' },
+
+  { romaji: 'bya', hiragana: 'びゃ', katakana: 'ビャ', section: 'youon' },
+  { romaji: 'byu', hiragana: 'びゅ', katakana: 'ビュ', section: 'youon' },
+  { romaji: 'byo', hiragana: 'びょ', katakana: 'ビョ', section: 'youon' },
+
+  { romaji: 'pya', hiragana: 'ぴゃ', katakana: 'ピャ', section: 'youon' },
+  { romaji: 'pyu', hiragana: 'ぴゅ', katakana: 'ピュ', section: 'youon' },
+  { romaji: 'pyo', hiragana: 'ぴょ', katakana: 'ピョ', section: 'youon' },
 ];
 
 export const KANA_ROWS = [
-  { id: 'a', label: 'A (a, i, u, e, o)', start: 0, end: 5 },
-  { id: 'ka', label: 'Ka (ka, ki, ku...)', start: 5, end: 10 },
-  { id: 'sa', label: 'Sa (sa, shi, su...)', start: 10, end: 15 },
-  { id: 'ta', label: 'Ta (ta, chi, tsu...)', start: 15, end: 20 },
-  { id: 'na', label: 'Na (na, ni, nu...)', start: 20, end: 25 },
-  { id: 'ha', label: 'Ha (ha, hi, fu...)', start: 25, end: 30 },
-  { id: 'ma', label: 'Ma (ma, mi, mu...)', start: 30, end: 35 },
-  { id: 'ya', label: 'Ya (ya, yu, yo)', start: 35, end: 38 },
-  { id: 'ra', label: 'Ra (ra, ri, ru...)', start: 38, end: 43 },
-  { id: 'wa', label: 'Wa (wa, wo, n)', start: 43, end: 46 },
+  // พื้นฐาน — Basic
+  { id: 'a',   label: 'A · i · u · e · o',        start: 0,   end: 5,   section: 'basic' },
+  { id: 'ka',  label: 'Ka · ki · ku · ke · ko',    start: 5,   end: 10,  section: 'basic' },
+  { id: 'sa',  label: 'Sa · shi · su · se · so',   start: 10,  end: 15,  section: 'basic' },
+  { id: 'ta',  label: 'Ta · chi · tsu · te · to',  start: 15,  end: 20,  section: 'basic' },
+  { id: 'na',  label: 'Na · ni · nu · ne · no',    start: 20,  end: 25,  section: 'basic' },
+  { id: 'ha',  label: 'Ha · hi · fu · he · ho',    start: 25,  end: 30,  section: 'basic' },
+  { id: 'ma',  label: 'Ma · mi · mu · me · mo',    start: 30,  end: 35,  section: 'basic' },
+  { id: 'ya',  label: 'Ya · yu · yo',              start: 35,  end: 38,  section: 'basic' },
+  { id: 'ra',  label: 'Ra · ri · ru · re · ro',    start: 38,  end: 43,  section: 'basic' },
+  { id: 'wa',  label: 'Wa · wo · n',               start: 43,  end: 46,  section: 'basic' },
+
+  // เสียงขุ่น — Dakuten (voiced)
+  { id: 'ga',  label: 'Ga · gi · gu · ge · go',    start: 46,  end: 51,  section: 'dakuten' },
+  { id: 'za',  label: 'Za · ji · zu · ze · zo',    start: 51,  end: 56,  section: 'dakuten' },
+  { id: 'da',  label: 'Da · di · du · de · do',    start: 56,  end: 61,  section: 'dakuten' },
+  { id: 'ba',  label: 'Ba · bi · bu · be · bo',    start: 61,  end: 66,  section: 'dakuten' },
+  { id: 'pa',  label: 'Pa · pi · pu · pe · po',    start: 66,  end: 71,  section: 'dakuten' },
+
+  // เสียงควบ — Youon (compound)
+  { id: 'kya', label: 'Kya · kyu · kyo',           start: 71,  end: 74,  section: 'youon' },
+  { id: 'sha', label: 'Sha · shu · sho',           start: 74,  end: 77,  section: 'youon' },
+  { id: 'cha', label: 'Cha · chu · cho',           start: 77,  end: 80,  section: 'youon' },
+  { id: 'nya', label: 'Nya · nyu · nyo',           start: 80,  end: 83,  section: 'youon' },
+  { id: 'hya', label: 'Hya · hyu · hyo',           start: 83,  end: 86,  section: 'youon' },
+  { id: 'mya', label: 'Mya · myu · myo',           start: 86,  end: 89,  section: 'youon' },
+  { id: 'rya', label: 'Rya · ryu · ryo',           start: 89,  end: 92,  section: 'youon' },
+  { id: 'gya', label: 'Gya · gyu · gyo',           start: 92,  end: 95,  section: 'youon' },
+  { id: 'ja',  label: 'Ja · ju · jo',              start: 95,  end: 98,  section: 'youon' },
+  { id: 'bya', label: 'Bya · byu · byo',           start: 98,  end: 101, section: 'youon' },
+  { id: 'pya', label: 'Pya · pyu · pyo',           start: 101, end: 104, section: 'youon' },
 ];
 
 // --- Data: Common Japanese Words ---

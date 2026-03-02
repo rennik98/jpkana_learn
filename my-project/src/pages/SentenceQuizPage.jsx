@@ -52,7 +52,7 @@ const SentenceQuizPage = () => {
   return (
     <div className="w-full max-w-4xl mx-auto h-full flex flex-col pb-4 animate-fade-in">
       {/* Header Controls */}
-      <div className="flex items-center justify-between px-4 mb-2 shrink-0">
+      <div className="flex items-center justify-between px-4 mb-4 shrink-0">
         <div className="flex items-center gap-4 sm:gap-6">
            <div className="flex flex-col">
              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Score</span>
@@ -66,16 +66,16 @@ const SentenceQuizPage = () => {
            </div>
         </div>
         
-        <button 
+        <button
           onClick={() => setDifficulty(d => d === 'easy' ? 'normal' : 'easy')}
-          className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors border ${
-            difficulty === 'easy' 
-              ? 'bg-green-50 text-green-700 border-green-200' 
+          className={`flex items-center gap-1.5 text-[10px] font-bold px-3 py-1.5 rounded-lg transition-all border ${
+            difficulty === 'easy'
+              ? 'bg-green-50 text-green-700 border-green-200'
               : 'bg-red-50 text-red-700 border-red-200'
           }`}
         >
-          <Gauge size={14} />
-          {difficulty === 'easy' ? 'Easy Mode' : 'Normal Mode'}
+          <Gauge size={12} />
+          {difficulty === 'easy' ? 'EASY' : 'NORMAL'}
         </button>
       </div>
 
@@ -159,14 +159,14 @@ const SentenceQuizPage = () => {
 
           {/* Feedback Section */}
           <div className={`transition-all duration-300 overflow-hidden ${feedback ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-             <div className={`p-3 rounded-xl flex flex-col gap-2 ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
+             <div className={`p-4 rounded-2xl flex flex-col gap-2 ${feedback === 'correct' ? 'bg-green-50 text-green-800 border border-green-100' : 'bg-red-50 text-red-800 border border-red-100'}`}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 font-bold">
+                  <div className="flex items-center gap-2 font-bold text-lg">
                     {feedback === 'correct' ? <><CheckCircle size={20} /> Correct!</> : <><XCircle size={20} /> Incorrect</>}
                   </div>
-                  <button 
+                  <button
                     onClick={generateQuestion}
-                    className="px-4 py-2 bg-white rounded-lg shadow-sm text-sm font-bold hover:shadow-md transition-all flex items-center gap-2 text-slate-800"
+                    className="px-5 py-2.5 bg-white rounded-xl shadow-md text-sm font-bold hover:shadow-lg active:scale-95 transition-all flex items-center gap-2 text-slate-800"
                   >
                     Next <ArrowRight size={14} />
                   </button>

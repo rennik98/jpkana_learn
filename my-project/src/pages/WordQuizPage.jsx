@@ -116,25 +116,25 @@ const WordQuizPage = ({ wordList = INITIAL_WORD_DATA, onManageWords, showSetting
              <span className="text-xl font-bold text-slate-900 leading-none">{score}</span>
            </div>
            <div className="flex flex-col">
-             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Streak</span>
+             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">Streak <Trophy size={10} className="text-yellow-500" /></span>
              <span className="text-xl font-bold text-orange-500 leading-none">{streak}</span>
            </div>
            {uniqueMode && (
              <div className="flex flex-col">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mastery</span>
+               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Progress</span>
                <span className="text-xl font-bold text-blue-600 leading-none">{masteredIndices.length}/{filteredWords.length}</span>
              </div>
            )}
         </div>
 
-        <button 
+        <button
           onClick={() => setUniqueMode(!uniqueMode)}
-          className={`flex items-center gap-2 p-2 md:px-4 md:py-2.5 rounded-full md:rounded-xl border transition-all font-bold text-xs ${
-            uniqueMode ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-200'
+          className={`flex items-center gap-1.5 text-[10px] font-bold px-3 py-1.5 rounded-lg transition-all border ${
+            uniqueMode ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-100 text-slate-500 border-transparent'
           }`}
         >
-          <RefreshCw size={18} className={uniqueMode ? 'animate-spin-slow' : ''} />
-          <span className="hidden md:inline">{uniqueMode ? 'UNIQUE' : 'RANDOM'}</span>
+          <RefreshCw size={12} className={uniqueMode ? 'animate-spin-slow' : ''} />
+          {uniqueMode ? 'UNIQUE' : 'RANDOM'}
         </button>
       </header>
 
