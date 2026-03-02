@@ -130,6 +130,38 @@ export default function App() {
          />
       )}
 
+      {/* Mobile Drawer Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
+          <aside className="absolute left-0 top-0 h-full w-72 bg-white shadow-2xl flex flex-col animate-slide-in-left">
+            <div className="p-5 flex items-center justify-between border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-red-200 shadow-lg">JP</div>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900">Kana Dojo</h1>
+              </div>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-lg text-slate-400 hover:bg-slate-100"><X size={20} /></button>
+            </div>
+            <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
+              {navItems.map(item => (
+                <button key={item.id} onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }} className={getNavClass(item.id, true)}>
+                  <item.icon size={20} /> {item.label}
+                </button>
+              ))}
+            </nav>
+            {isControlsVisible && (activeTab !== 'quiz' || quizSubTab !== 'words') && (activeTab !== 'study' || studyMode !== 'words') && (
+              <div className="p-4 border-t border-slate-100 bg-slate-50/50">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Script Mode</div>
+                <div className="flex gap-2 bg-slate-200/50 p-1 rounded-xl">
+                  <button onClick={() => setScriptType('hiragana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'hiragana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Hiragana</button>
+                  <button onClick={() => setScriptType('katakana')} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${scriptType === 'katakana' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}>Katakana</button>
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+      )}
+
       <aside className="hidden md:flex w-64 flex-col bg-white border-r border-slate-200 z-20 shrink-0">
         <div className="p-6 flex items-center gap-3">
           <div className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-red-200 shadow-lg">JP</div>
@@ -218,6 +250,20 @@ export default function App() {
            </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex items-center justify-around px-2 z-20">
+        {navItems.map(item => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${activeTab === item.id ? 'text-red-500' : 'text-slate-400'}`}
+          >
+            <item.icon size={20} />
+            <span className="text-[10px] font-bold">{item.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }

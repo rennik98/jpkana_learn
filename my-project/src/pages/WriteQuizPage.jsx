@@ -81,14 +81,14 @@ const WriteQuizPage = ({ activeKana, scriptType }) => {
            <p className="text-4xl font-bold text-slate-800">"{writeQuizItem.romaji}"</p>
          </div>
          
-         <div className="flex-1 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] relative flex items-center justify-center min-h-[400px]">
+         <div className="flex-1 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] relative flex items-center justify-center min-h-[240px] p-4">
            <div className="absolute top-4 right-4 flex gap-2 z-20">
              <button onClick={() => writeQuizCanvas.clearCanvas()} className="p-2 bg-white shadow-md border border-slate-200 rounded-lg text-slate-600 hover:text-red-500 transition-all"><RotateCcw size={18} /></button>
              <button onClick={() => setWriteQuizHint(!writeQuizHint)} className={`p-2 bg-white shadow-md border border-slate-200 rounded-lg transition-all ${writeQuizHint ? 'text-yellow-500 border-yellow-200 ring-2 ring-yellow-100' : 'text-slate-400'}`}><HelpCircle size={18} /></button>
            </div>
-           <div className="relative w-[360px] h-[360px] border-2 border-slate-200 rounded-3xl bg-white shadow-sm overflow-hidden">
+           <div className="relative w-full max-w-[360px] aspect-square border-2 border-slate-200 rounded-3xl bg-white shadow-sm overflow-hidden">
               <div className={`absolute inset-0 flex items-center justify-center pointer-events-none select-none ${(writeQuizRevealed || writeQuizHint) ? 'transition-all duration-500' : ''} ${writeQuizRevealed ? 'opacity-100 scale-100' : (writeQuizHint ? 'opacity-20 scale-90' : 'opacity-0 scale-75')}`}>
-                  <span className={`text-[250px] leading-none font-serif ${writeQuizRevealed ? 'text-red-500' : 'text-slate-400'}`} style={{ fontFamily: '"Noto Serif JP", serif' }}>
+                  <span className={`leading-none font-serif ${writeQuizRevealed ? 'text-red-500' : 'text-slate-400'}`} style={{ fontFamily: '"Noto Serif JP", serif', fontSize: 'min(250px, 60vw)' }}>
                     {scriptType === 'hiragana' ? writeQuizItem.hiragana : writeQuizItem.katakana}
                   </span>
               </div>

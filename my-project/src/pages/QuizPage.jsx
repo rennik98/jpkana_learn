@@ -170,16 +170,16 @@ const ReadQuiz = ({ activeKana, scriptType }) => {
 
 // Main Container
 const QuizPage = ({ activeKana, scriptType, wordList, onManageWords, subTab, setSubTab, showSettings, setShowSettings }) => {
-  const getTabClass = (id) => `flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition-all ${subTab === id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`;
-  
+  const getTabClass = (id) => `flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-sm transition-all ${subTab === id ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`;
+
   return (
     <div className="h-full flex flex-col animate-fade-in">
       <div className="flex justify-center mb-4 shrink-0">
         <div className="bg-white p-1 rounded-xl shadow-sm border border-slate-100 flex gap-1">
-          <button onClick={() => setSubTab('read')} className={getTabClass('read')}><Brain size={16} /> Read</button>
-          <button onClick={() => setSubTab('write')} className={getTabClass('write')}><ClipboardCheck size={16} /> Write</button>
-          <button onClick={() => setSubTab('words')} className={getTabClass('words')}><Languages size={16} /> Words</button>
-          <button onClick={() => setSubTab('sentences')} className={getTabClass('sentences')}><Quote size={16} /> Sentences</button>
+          <button onClick={() => setSubTab('read')} className={getTabClass('read')}><Brain size={16} /><span className="hidden sm:inline">Read</span></button>
+          <button onClick={() => setSubTab('write')} className={getTabClass('write')}><ClipboardCheck size={16} /><span className="hidden sm:inline">Write</span></button>
+          <button onClick={() => setSubTab('words')} className={getTabClass('words')}><Languages size={16} /><span className="hidden sm:inline">Words</span></button>
+          <button onClick={() => setSubTab('sentences')} className={getTabClass('sentences')}><Quote size={16} /><span className="hidden sm:inline">Sentences</span></button>
         </div>
       </div>
       <div className="flex-1 min-h-0">
