@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, ScrollText } from 'lucide-react';
+import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, ScrollText, Layers } from 'lucide-react';
 
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
 
@@ -12,6 +12,7 @@ import StudyPage from './pages/StudyPage';
 import QuizPage from './pages/QuizPage';
 import SpeedTypePage from './pages/SpeedTypePage';
 import MidtermExamPage from './pages/MidtermExamPage';
+import FlashcardPage from './pages/FlashcardPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('study');
@@ -103,6 +104,7 @@ export default function App() {
     { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
     { id: 'midterm', icon: ScrollText, label: 'Midterm' },
+    { id: 'flashcard', icon: Layers, label: 'Flashcard' },
   ];
 
   const getNavClass = (id, isMobile = false) => {
@@ -275,6 +277,8 @@ export default function App() {
             )}
 
             {activeTab === 'midterm' && <MidtermExamPage />}
+
+            {activeTab === 'flashcard' && <FlashcardPage />}
 
             {activeTab === 'connect' && (
               <WorksheetGame words={wordList} />
