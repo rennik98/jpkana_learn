@@ -188,15 +188,18 @@ export default function FlashcardPage() {
 
   const handleFlip = () => total > 0 && setFlipped(f => !f);
 
-  const handleKnow = (knew) => {
-    const newKnown = new Set(known);
-    const newUnknown = new Set(unknown);
-    if (knew) newKnown.add(card.jp); else newUnknown.add(card.jp);
-    setKnown(newKnown);
-    setUnknown(newUnknown);
-    setFlipped(false);
+ 
+const handleKnow = (knew) => {
+  const newKnown = new Set(known);
+  const newUnknown = new Set(unknown);
+  if (knew) newKnown.add(card.jp); else newUnknown.add(card.jp);
+  setKnown(newKnown);
+  setUnknown(newUnknown);
+  setFlipped(false);
+  setTimeout(() => {
     if (index + 1 >= total) setShowStats(true); else setIndex(i => i + 1);
-  };
+  }, 500);
+};
 
   const getDisplayContent = (side) => {
     if (!card) return { main: '', sub: '', label: '' };
