@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, Layers } from 'lucide-react';
+import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, Layers, BookMarked } from 'lucide-react';
 
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
 
@@ -12,6 +12,7 @@ import StudyPage from './pages/StudyPage';
 import QuizPage from './pages/QuizPage';
 import SpeedTypePage from './pages/SpeedTypePage';
 import FlashcardPage from './pages/FlashcardPage';
+import WordPage from './pages/WordPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('study');
@@ -102,6 +103,7 @@ export default function App() {
     { id: 'lesson', icon: GraduationCap, label: 'Lessons' },
     { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
+    { id: 'word', icon: BookMarked, label: 'Word' },
     { id: 'flashcard', icon: Layers, label: 'Flashcard' },
   ];
 
@@ -273,6 +275,8 @@ export default function App() {
             {activeTab === 'speed' && (
               <SpeedTypePage activeKana={activeKana} scriptType={scriptType} />
             )}
+
+            {activeTab === 'word' && <WordPage />}
 
             {activeTab === 'flashcard' && <FlashcardPage />}
 
