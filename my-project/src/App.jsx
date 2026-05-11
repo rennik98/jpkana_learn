@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, ScrollText, Layers } from 'lucide-react';
+import { BookOpen, Brain, Link2, Menu, Settings, X, Keyboard, GraduationCap, Layers } from 'lucide-react';
 
 import { kanaData, KANA_ROWS, INITIAL_WORD_DATA } from './data/kana';
 
@@ -11,7 +11,6 @@ import LessonPage from './pages/LessonPage';
 import StudyPage from './pages/StudyPage';
 import QuizPage from './pages/QuizPage';
 import SpeedTypePage from './pages/SpeedTypePage';
-import MidtermExamPage from './pages/MidtermExamPage';
 import FlashcardPage from './pages/FlashcardPage';
 
 export default function App() {
@@ -103,7 +102,6 @@ export default function App() {
     { id: 'lesson', icon: GraduationCap, label: 'Lessons' },
     { id: 'speed', icon: Keyboard, label: 'Speed Type' },
     { id: 'connect', icon: Link2, label: 'Connect' },
-    { id: 'midterm', icon: ScrollText, label: 'Midterm' },
     { id: 'flashcard', icon: Layers, label: 'Flashcard' },
   ];
 
@@ -275,8 +273,6 @@ export default function App() {
             {activeTab === 'speed' && (
               <SpeedTypePage activeKana={activeKana} scriptType={scriptType} />
             )}
-
-            {activeTab === 'midterm' && <MidtermExamPage />}
 
             {activeTab === 'flashcard' && <FlashcardPage />}
 
