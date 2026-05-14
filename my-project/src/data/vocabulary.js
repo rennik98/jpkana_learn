@@ -248,6 +248,33 @@ export const ALL_VOCAB = [
   { jp: 'ええ', th: 'ครับ / ค่ะ', en: 'Yes (casual)', romaji: 'ee', lesson: 6, type: 'สำนวน' },
   { jp: 'いいですね', th: 'ดีจริง / ดีนะ', en: 'That sounds good', romaji: 'ii desu ne', lesson: 6, type: 'สำนวน' },
   { jp: 'わかりました', th: 'เข้าใจแล้ว', en: 'I understand / Got it', romaji: 'wakarimashita', lesson: 6, type: 'สำนวน' },
+
+  // ── Kanji ─────────────────────────────────────────────────────────────────
+  // Basic kanji (Lesson 1 context)
+  { jp: '日', th: 'พระอาทิตย์ / วัน', en: 'Sun / Day', romaji: 'nichi / hi', lesson: 1, type: 'คันจิ' },
+  { jp: '本', th: 'หนังสือ / ต้นกำเนิด (日本 = ญี่ปุ่น)', en: 'Book / Origin (日本 = Japan)', romaji: 'hon / moto', lesson: 1, type: 'คันจิ' },
+  { jp: '人', th: 'คน (日本人 = คนญี่ปุ่น)', en: 'Person (日本人 = Japanese person)', romaji: 'jin / nin / hito', lesson: 1, type: 'คันจิ' },
+  { jp: '何', th: 'อะไร', en: 'What', romaji: 'nan / nani', lesson: 1, type: 'คันจิ' },
+
+  // Numbers kanji (Lesson 3 context)
+  { jp: '百', th: 'หนึ่งร้อย', en: 'Hundred', romaji: 'hyaku', lesson: 3, type: 'คันจิ' },
+  { jp: '千', th: 'หนึ่งพัน', en: 'Thousand', romaji: 'sen', lesson: 3, type: 'คันจิ' },
+  { jp: '万', th: 'หนึ่งหมื่น', en: 'Ten Thousand', romaji: 'man', lesson: 3, type: 'คันจิ' },
+  { jp: '円', th: 'เยน / วงกลม', en: 'Yen / Circle', romaji: 'en / maru', lesson: 3, type: 'คันจิ' },
+
+  // Time kanji (Lesson 4 context)
+  { jp: '今', th: 'ตอนนี้', en: 'Now', romaji: 'kon / ima', lesson: 4, type: 'คันจิ' },
+  { jp: '時', th: 'เวลา / ชั่วโมง', en: 'Time / Hour', romaji: 'ji / toki', lesson: 4, type: 'คันจิ' },
+  { jp: '分', th: 'นาที / ส่วน / เข้าใจ', en: 'Minute / Part / to Understand', romaji: 'fun / bun / wa(karu)', lesson: 4, type: 'คันจิ' },
+  { jp: '休み', th: 'พัก / วันหยุด / ขาด', en: 'Rest / Holiday / Absence', romaji: 'kyuu / yasu(mi)', lesson: 4, type: 'คันจิ' },
+
+  // Days of week kanji (Lesson 4 context)
+  { jp: '月', th: 'พระจันทร์ / วันจันทร์ (月曜日)', en: 'Moon / Monday (Getsuyoubi)', romaji: 'getsu / tsuki', lesson: 4, type: 'คันจิ' },
+  { jp: '火', th: 'ไฟ / วันอังคาร (火曜日)', en: 'Fire / Tuesday (Kayoubi)', romaji: 'ka / hi', lesson: 4, type: 'คันจิ' },
+  { jp: '水', th: 'น้ำ / วันพุธ (水曜日)', en: 'Water / Wednesday (Suiyoubi)', romaji: 'sui / mizu', lesson: 4, type: 'คันจิ' },
+  { jp: '木', th: 'ต้นไม้ / ไม้ / วันพฤหัสบดี (木曜日)', en: 'Tree / Wood / Thursday (Mokuyoubi)', romaji: 'moku / ki', lesson: 4, type: 'คันจิ' },
+  { jp: '金', th: 'ทอง / เงิน / วันศุกร์ (金曜日)', en: 'Gold / Money / Friday (Kinyoubi)', romaji: 'kin / kane', lesson: 4, type: 'คันจิ' },
+  { jp: '土', th: 'ดิน / วันเสาร์ (土曜日)', en: 'Earth / Soil / Saturday (Doyoubi)', romaji: 'do / tsuchi', lesson: 4, type: 'คันจิ' },
 ];
 
 export const LESSON_META = [
@@ -275,4 +302,5 @@ export const TYPE_META = [
   { id: 'ยานพาหนะ',  label: 'ยานพาหนะ',    icon: '🚆' },
   { id: 'คน',        label: 'คน/ครอบครัว',  icon: '👨‍👩‍👧' },
   { id: 'อาหาร',     label: 'อาหาร',        icon: '🍱' },
+  { id: 'คันจิ',     label: 'คันจิ',        icon: '漢' },
 ];
