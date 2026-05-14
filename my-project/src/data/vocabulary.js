@@ -275,6 +275,66 @@ export const ALL_VOCAB = [
   { jp: '木', th: 'ต้นไม้ / ไม้ / วันพฤหัสบดี (木曜日)', en: 'Tree / Wood / Thursday (Mokuyoubi)', romaji: 'moku / ki', lesson: 4, type: 'คันจิ' },
   { jp: '金', th: 'ทอง / เงิน / วันศุกร์ (金曜日)', en: 'Gold / Money / Friday (Kinyoubi)', romaji: 'kin / kane', lesson: 4, type: 'คันจิ' },
   { jp: '土', th: 'ดิน / วันเสาร์ (土曜日)', en: 'Earth / Soil / Saturday (Doyoubi)', romaji: 'do / tsuchi', lesson: 4, type: 'คันจิ' },
+
+  // ── Lesson 1 additions ────────────────────────────────────────────────────
+  { jp: '～さん', th: 'คุณ ~ / นาย ~ / นาง ~ / นางสาว ~', en: 'Mr. / Ms. ~ (polite name suffix)', romaji: '~san', lesson: 1, type: 'ไวยากรณ์' },
+  { jp: '～ちゃん', th: 'หนู ~ (ใช้เรียกเด็ก แทน ～さん)', en: '~ (familiar suffix for children)', romaji: '~chan', lesson: 1, type: 'ไวยากรณ์' },
+  { jp: '～じん', th: 'ชาว ~ / คน ~ (สัญชาติ)', en: '~ person (nationality suffix)', romaji: '~jin', lesson: 1, type: 'ไวยากรณ์' },
+  { jp: 'ーさい', th: 'อายุ — ปี (ขวบ)', en: '— years old (age counter)', romaji: '~sai', lesson: 1, type: 'ไวยากรณ์' },
+  { jp: 'しゃいん', th: 'พนักงานบริษัท ~ (วางหลังชื่อบริษัท)', en: 'Employee of ~ company', romaji: 'shain', lesson: 1, type: 'อาชีพ' },
+  { jp: 'アメリカ', th: 'สหรัฐอเมริกา', en: 'United States', romaji: 'Amerika', lesson: 1, type: 'ประเทศ' },
+  { jp: 'イギリス', th: 'อังกฤษ', en: 'United Kingdom', romaji: 'Igirisu', lesson: 1, type: 'ประเทศ' },
+  { jp: 'インド', th: 'อินเดีย', en: 'India', romaji: 'Indo', lesson: 1, type: 'ประเทศ' },
+  { jp: 'インドネシア', th: 'อินโดนีเซีย', en: 'Indonesia', romaji: 'Indoneshia', lesson: 1, type: 'ประเทศ' },
+  { jp: '韓国', th: 'เกาหลีใต้', en: 'South Korea', romaji: 'Kankoku', lesson: 1, type: 'ประเทศ' },
+  { jp: 'タイ', th: 'ไทย', en: 'Thailand', romaji: 'Tai', lesson: 1, type: 'ประเทศ' },
+  { jp: '中国', th: 'จีน', en: 'China', romaji: 'Chuugoku', lesson: 1, type: 'ประเทศ' },
+  { jp: 'ドイツ', th: 'เยอรมนี', en: 'Germany', romaji: 'Doitsu', lesson: 1, type: 'ประเทศ' },
+  { jp: '日本', th: 'ญี่ปุ่น', en: 'Japan', romaji: 'Nihon', lesson: 1, type: 'ประเทศ' },
+  { jp: 'ブラジル', th: 'บราซิล', en: 'Brazil', romaji: 'Burajiru', lesson: 1, type: 'ประเทศ' },
+
+  // ── Lesson 2 additions ────────────────────────────────────────────────────
+  { jp: 'カード', th: 'การ์ด / บัตร (เครดิต)', en: 'Card / Credit card', romaji: 'kaado', lesson: 2, type: 'ของใช้' },
+  { jp: 'CD', th: 'ซีดี', en: 'CD', romaji: 'shii dii', lesson: 2, type: 'ของใช้' },
+  { jp: 'えいご', th: 'ภาษาอังกฤษ', en: 'English language', romaji: 'eigo', lesson: 2, type: 'ภาษา' },
+  { jp: 'にほんご', th: 'ภาษาญี่ปุ่น', en: 'Japanese language', romaji: 'nihongo', lesson: 2, type: 'ภาษา' },
+  { jp: '～ご', th: 'ภาษา ~', en: '~ language (suffix)', romaji: '~go', lesson: 2, type: 'ไวยากรณ์' },
+
+  // ── Lesson 3 additions ────────────────────────────────────────────────────
+  { jp: 'おくに', th: 'ประเทศ (ของคุณ)', en: 'Country (your country)', romaji: 'okuni', lesson: 3, type: 'สถานที่' },
+  { jp: 'ーかい', th: 'ชั้น — (ในอาคาร)', en: 'Floor — (counter)', romaji: '~kai / ~gai', lesson: 3, type: 'ตัวเลข' },
+  { jp: 'イタリア', th: 'อิตาลี', en: 'Italy', romaji: 'Itaria', lesson: 3, type: 'ประเทศ' },
+  { jp: 'スイス', th: 'สวิตเซอร์แลนด์', en: 'Switzerland', romaji: 'Suisu', lesson: 3, type: 'ประเทศ' },
+  { jp: 'フランス', th: 'ฝรั่งเศส', en: 'France', romaji: 'Furansu', lesson: 3, type: 'ประเทศ' },
+  { jp: 'ジャカルタ', th: 'จาการ์ตา', en: 'Jakarta', romaji: 'Jakaruta', lesson: 3, type: 'ประเทศ' },
+  { jp: 'バンコク', th: 'กรุงเทพฯ', en: 'Bangkok', romaji: 'Bankoku', lesson: 3, type: 'ประเทศ' },
+  { jp: 'ベルリン', th: 'เบอร์ลิน', en: 'Berlin', romaji: 'Berurin', lesson: 3, type: 'ประเทศ' },
+
+  // ── Lesson 4 additions ────────────────────────────────────────────────────
+  { jp: 'ーじ', th: '— โมง / — นาฬิกา', en: '— o\'clock (hour counter)', romaji: '~ji', lesson: 4, type: 'วันและเวลา' },
+  { jp: 'ーふん', th: '— นาที', en: '— minutes (counter)', romaji: '~fun / ~pun', lesson: 4, type: 'วันและเวลา' },
+  { jp: '～から', th: 'จาก ~ / ตั้งแต่ ~', en: 'From ~ / Since ~', romaji: '~kara', lesson: 4, type: 'ไวยากรณ์' },
+  { jp: '～まで', th: 'ถึง ~ / จนถึง ~', en: 'Until ~ / To ~', romaji: '~made', lesson: 4, type: 'ไวยากรณ์' },
+  { jp: '番号', th: 'หมายเลข / เบอร์ (โทรศัพท์)', en: 'Number (phone etc.)', romaji: 'bangou', lesson: 4, type: 'คำนาม' },
+  { jp: '何番', th: 'หมายเลขอะไร / เบอร์อะไร', en: 'What number', romaji: 'nanban', lesson: 4, type: 'คำถาม' },
+  { jp: 'ニューヨーク', th: 'นิวยอร์ก', en: 'New York', romaji: 'Nyuuyooku', lesson: 4, type: 'ประเทศ' },
+  { jp: 'ペキン', th: 'ปักกิ่ง', en: 'Beijing', romaji: 'Pekin', lesson: 4, type: 'ประเทศ' },
+  { jp: 'ロサンゼルス', th: 'ลอสแอนเจลิส', en: 'Los Angeles', romaji: 'Rosanzerusu', lesson: 4, type: 'ประเทศ' },
+  { jp: 'ロンドン', th: 'ลอนดอน', en: 'London', romaji: 'Rondon', lesson: 4, type: 'ประเทศ' },
+
+  // ── Lesson 5 additions ────────────────────────────────────────────────────
+  { jp: 'ーねん', th: 'ปี —', en: 'Year — (counter)', romaji: '~nen', lesson: 5, type: 'วันและเวลา' },
+  { jp: 'なんねん', th: 'ปีอะไร', en: 'What year', romaji: 'nannen', lesson: 5, type: 'คำถาม' },
+  { jp: 'ーがつ', th: 'เดือน —', en: 'Month — (counter)', romaji: '~gatsu', lesson: 5, type: 'วันและเวลา' },
+  { jp: 'なんがつ', th: 'เดือนอะไร', en: 'What month', romaji: 'nangatsu', lesson: 5, type: 'คำถาม' },
+  { jp: 'ーにち', th: 'วันที่ — / — วัน', en: 'Day — / — days (counter)', romaji: '~nichi', lesson: 5, type: 'วันและเวลา' },
+  { jp: 'なんにち', th: 'วันที่เท่าไร / กี่วัน', en: 'What day / How many days', romaji: 'nannichi', lesson: 5, type: 'คำถาม' },
+  { jp: '普通', th: 'รถไฟธรรมดา', en: 'Local train', romaji: 'futsuu', lesson: 5, type: 'ยานพาหนะ' },
+  { jp: '急行', th: 'รถไฟด่วน', en: 'Express train', romaji: 'kyuukou', lesson: 5, type: 'ยานพาหนะ' },
+  { jp: '特急', th: 'รถไฟด่วนพิเศษ', en: 'Limited express train', romaji: 'tokkyuu', lesson: 5, type: 'ยานพาหนะ' },
+
+  // ── Lesson 6 additions ────────────────────────────────────────────────────
+  { jp: 'メキシコ', th: 'เม็กซิโก', en: 'Mexico', romaji: 'Mekishiko', lesson: 6, type: 'ประเทศ' },
 ];
 
 export const LESSON_META = [
@@ -303,4 +363,7 @@ export const TYPE_META = [
   { id: 'คน',        label: 'คน/ครอบครัว',  icon: '👨‍👩‍👧' },
   { id: 'อาหาร',     label: 'อาหาร',        icon: '🍱' },
   { id: 'คันจิ',     label: 'คันจิ',        icon: '漢' },
+  { id: 'ประเทศ',    label: 'ประเทศ/เมือง', icon: '🌏' },
+  { id: 'ภาษา',     label: 'ภาษา',         icon: '🌐' },
+  { id: 'ไวยากรณ์', label: 'ไวยากรณ์',     icon: '📝' },
 ];
