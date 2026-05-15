@@ -31,8 +31,10 @@ function SectionHeader({ title, count, color }) {
     <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
       <div style={{ width:4, height:22, borderRadius:2, background:color }} />
       <span style={{ fontWeight:900, fontSize:15, color:'#1e293b' }}>{title}</span>
-      <span style={{ fontSize:11, fontWeight:700, color:'#94a3b8',
-        background:'#f1f5f9', borderRadius:8, padding:'1px 8px' }}>{count} คำ</span>
+      {count != null && (
+        <span style={{ fontSize:11, fontWeight:700, color:'#94a3b8',
+          background:'#f1f5f9', borderRadius:8, padding:'1px 8px' }}>{count} คำ</span>
+      )}
     </div>
   );
 }
@@ -178,6 +180,120 @@ function DateGrid({ words }) {
   );
 }
 
+// Hour counter (じ) readings
+const JI_DATA = [
+  { num: 1,  hira: 'いちじ',       special: false },
+  { num: 2,  hira: 'にじ',         special: false },
+  { num: 3,  hira: 'さんじ',       special: false },
+  { num: 4,  hira: 'よじ',         special: true  },
+  { num: 5,  hira: 'ごじ',         special: false },
+  { num: 6,  hira: 'ろくじ',       special: false },
+  { num: 7,  hira: 'しちじ',       special: true  },
+  { num: 8,  hira: 'はちじ',       special: false },
+  { num: 9,  hira: 'くじ',         special: true  },
+  { num: 10, hira: 'じゅうじ',     special: false },
+  { num: 11, hira: 'じゅういちじ', special: false },
+  { num: 12, hira: 'じゅうにじ',   special: false },
+];
+
+// Minute counter (ふん/ぷん) readings
+const FUN_DATA = [
+  { num: 1,  hira: 'いっぷん',           pun: true  },
+  { num: 2,  hira: 'にふん',             pun: false },
+  { num: 3,  hira: 'さんぷん',           pun: true  },
+  { num: 4,  hira: 'よんふん',           pun: false },
+  { num: 5,  hira: 'ごふん',             pun: false },
+  { num: 6,  hira: 'ろっぷん',           pun: true  },
+  { num: 7,  hira: 'ななふん',           pun: false },
+  { num: 8,  hira: 'はっぷん',           pun: true  },
+  { num: 9,  hira: 'きゅうふん',         pun: false },
+  { num: 10, hira: 'じゅっぷん',         pun: true  },
+  { num: 15, hira: 'じゅうごふん',       pun: false },
+  { num: 20, hira: 'にじゅっぷん',       pun: true  },
+  { num: 30, hira: 'さんじゅっぷん',     pun: true  },
+  { num: 45, hira: 'よんじゅうごふん',   pun: false },
+];
+
+function TimeCounterTable({ accentColor }) {
+  return (
+    <div style={{ background:'#fff', borderRadius:16, border:'1px solid #e2e8f0', padding:20,
+      display:'flex', flexDirection:'column', gap:24 }}>
+
+      {/* じ table */}
+      <div>
+        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12, flexWrap:'wrap' }}>
+          <span style={{ fontSize:13, fontWeight:800, color:'#475569' }}>🕐 — じ (時) · อ่านชั่วโมง</span>
+          <span style={{ background:'#fef9c3', color:'#b45309', fontSize:10, fontWeight:800,
+            borderRadius:6, padding:'2px 8px' }}>⚠ สีเหลือง = อ่านพิเศษ</span>
+        </div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead>
+              <tr>
+                {JI_DATA.map(d => (
+                  <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:13,
+                    fontWeight:900, color: d.special ? '#b45309' : '#334155',
+                    background: d.special ? '#fef9c3' : '#f8fafc',
+                    border:'1px solid #e2e8f0', minWidth:80 }}>{d.num}時</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {JI_DATA.map(d => (
+                  <td key={d.num} style={{ padding:'10px', textAlign:'center',
+                    border:'1px solid #e2e8f0', background: d.special ? '#fef9c3' : '#fff' }}>
+                    <div style={{ fontSize:16, fontWeight:900,
+                      color: d.special ? '#b45309' : accentColor }}>{d.hira}</div>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ふん / ぷん table */}
+      <div>
+        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12, flexWrap:'wrap' }}>
+          <span style={{ fontSize:13, fontWeight:800, color:'#475569' }}>⏱ — ふん / ぷん (分) · อ่านนาที</span>
+          <span style={{ background:'#fff7ed', color:'#c2410c', fontSize:10, fontWeight:800,
+            borderRadius:6, padding:'2px 8px' }}>🟠 ぷん</span>
+          <span style={{ background:'#eff6ff', color:'#1d4ed8', fontSize:10, fontWeight:800,
+            borderRadius:6, padding:'2px 8px' }}>🔵 ふん</span>
+        </div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead>
+              <tr>
+                {FUN_DATA.map(d => (
+                  <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:13,
+                    fontWeight:900, color: d.pun ? '#c2410c' : '#1d4ed8',
+                    background: d.pun ? '#fff7ed' : '#eff6ff',
+                    border:'1px solid #e2e8f0', minWidth:80 }}>{d.num}分</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {FUN_DATA.map(d => (
+                  <td key={d.num} style={{ padding:'10px', textAlign:'center',
+                    border:'1px solid #e2e8f0', background: d.pun ? '#fff7ed' : '#eff6ff' }}>
+                    <div style={{ fontSize:16, fontWeight:900,
+                      color: d.pun ? '#c2410c' : '#1d4ed8' }}>{d.hira}</div>
+                    <div style={{ fontSize:10, fontWeight:800, marginTop:3,
+                      color: d.pun ? '#c2410c' : '#1d4ed8' }}>{d.pun ? 'ぷん' : 'ふん'}</div>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function WordPage() {
   const [lesson, setLesson] = useState(0);
@@ -204,6 +320,8 @@ export default function WordPage() {
     baseWords.some(w => WEEKDAY_SET.has(w.jp)), [baseWords]);
   const showDates = useMemo(() =>
     baseWords.some(w => DATE_SET.has(w.jp)), [baseWords]);
+  const showTimeCounters = useMemo(() =>
+    baseWords.some(w => w.jp === 'ーじ' || w.jp === 'ーふん'), [baseWords]);
 
   // Card-grid types
   const CARD_GRID_TYPES = new Set(['อาหาร', 'ยานพาหนะ', 'คน']);
@@ -309,6 +427,14 @@ export default function WordPage() {
             <div style={{ background:'#fff', borderRadius:16, border:'1px solid #e2e8f0', overflow:'hidden' }}>
               <DateGrid words={dateWords} />
             </div>
+          </section>
+        )}
+
+        {/* ── Time counter reference table ── */}
+        {showTimeCounters && (
+          <section>
+            <SectionHeader title="🕐 ตารางอ่านเวลา — じ และ ふん / ぷん" color={accentColor} />
+            <TimeCounterTable accentColor={accentColor} />
           </section>
         )}
 
