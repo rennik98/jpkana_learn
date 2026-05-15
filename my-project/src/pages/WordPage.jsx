@@ -180,6 +180,197 @@ function DateGrid({ words }) {
   );
 }
 
+// Number reference data
+const NUM_BASIC = [
+  { num: 1,  hira: 'いち',       alt: null },
+  { num: 2,  hira: 'に',         alt: null },
+  { num: 3,  hira: 'さん',       alt: null },
+  { num: 4,  hira: 'し',         alt: 'よん' },
+  { num: 5,  hira: 'ご',         alt: null },
+  { num: 6,  hira: 'ろく',       alt: null },
+  { num: 7,  hira: 'しち',       alt: 'なな' },
+  { num: 8,  hira: 'はち',       alt: null },
+  { num: 9,  hira: 'く',         alt: 'きゅう' },
+  { num: 10, hira: 'じゅう',     alt: null },
+];
+const NUM_TENS = [
+  { num: 10, hira: 'じゅう' }, { num: 20, hira: 'にじゅう' },
+  { num: 30, hira: 'さんじゅう' }, { num: 40, hira: 'よんじゅう' },
+  { num: 50, hira: 'ごじゅう' }, { num: 60, hira: 'ろくじゅう' },
+  { num: 70, hira: 'ななじゅう' }, { num: 80, hira: 'はちじゅう' },
+  { num: 90, hira: 'きゅうじゅう' },
+];
+const NUM_HUNDREDS = [
+  { num: 100, hira: 'ひゃく',     special: false },
+  { num: 200, hira: 'にひゃく',   special: false },
+  { num: 300, hira: 'さんびゃく', special: true  },
+  { num: 400, hira: 'よんひゃく', special: false },
+  { num: 500, hira: 'ごひゃく',   special: false },
+  { num: 600, hira: 'ろっぴゃく', special: true  },
+  { num: 700, hira: 'ななひゃく', special: false },
+  { num: 800, hira: 'はっぴゃく', special: true  },
+  { num: 900, hira: 'きゅうひゃく', special: false },
+];
+const NUM_THOUSANDS = [
+  { num: '1,000',  hira: 'せん',         special: false },
+  { num: '2,000',  hira: 'にせん',       special: false },
+  { num: '3,000',  hira: 'さんぜん',     special: true  },
+  { num: '4,000',  hira: 'よんせん',     special: false },
+  { num: '5,000',  hira: 'ごせん',       special: false },
+  { num: '6,000',  hira: 'ろくせん',     special: false },
+  { num: '7,000',  hira: 'ななせん',     special: false },
+  { num: '8,000',  hira: 'はっせん',     special: true  },
+  { num: '9,000',  hira: 'きゅうせん',   special: false },
+  { num: '10,000', hira: 'いちまん',     special: false },
+];
+
+function NumberTable({ accentColor }) {
+  const SPECIAL_BG   = '#fef9c3';
+  const SPECIAL_COL  = '#b45309';
+  const ALT_COL      = '#7c3aed';
+  const HEAD_BG      = '#f8fafc';
+
+  const SubTable = ({ label, rows, renderHead, renderCell }) => (
+    <div>
+      <div style={{ fontSize:12, fontWeight:800, color:'#64748b', marginBottom:8 }}>{label}</div>
+      <div style={{ overflowX:'auto' }}>
+        <table style={{ borderCollapse:'collapse' }}>
+          <thead><tr>{rows.map((d, i) => (
+            <th key={i} style={{ padding:'6px 10px', textAlign:'center', fontSize:12,
+              fontWeight:900, border:'1px solid #e2e8f0', minWidth:78,
+              ...renderHead(d) }}>{d.num}</th>
+          ))}</tr></thead>
+          <tbody><tr>{rows.map((d, i) => (
+            <td key={i} style={{ padding:'10px 8px', textAlign:'center',
+              border:'1px solid #e2e8f0', ...renderCell(d) }} />
+          ))}</tr></tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ background:'#fff', borderRadius:16, border:'1px solid #e2e8f0', padding:20,
+      display:'flex', flexDirection:'column', gap:22 }}>
+
+      {/* Legend */}
+      <div style={{ display:'flex', gap:10, flexWrap:'wrap', alignItems:'center' }}>
+        <span style={{ fontSize:13, fontWeight:800, color:'#475569' }}>🔢 ตารางตัวเลข</span>
+        <span style={{ background:SPECIAL_BG, color:SPECIAL_COL, fontSize:10, fontWeight:800,
+          borderRadius:6, padding:'2px 8px' }}>⚠ สีเหลือง = อ่านพิเศษ (เปลี่ยนเสียง)</span>
+        <span style={{ background:'#f5f3ff', color:ALT_COL, fontSize:10, fontWeight:800,
+          borderRadius:6, padding:'2px 8px' }}>🟣 สีม่วง = อ่านได้อีกแบบ</span>
+      </div>
+
+      {/* 1–10 */}
+      <div>
+        <div style={{ fontSize:12, fontWeight:800, color:'#64748b', marginBottom:8 }}>1 – 10</div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead><tr>
+              {NUM_BASIC.map(d => (
+                <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:12,
+                  fontWeight:900, color:'#334155', background:HEAD_BG,
+                  border:'1px solid #e2e8f0', minWidth:78 }}>{d.num}</th>
+              ))}
+            </tr></thead>
+            <tbody><tr>
+              {NUM_BASIC.map(d => (
+                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                  border:'1px solid #e2e8f0', background:'#fff' }}>
+                  <div style={{ fontSize:15, fontWeight:900, color:accentColor }}>{d.hira}</div>
+                  {d.alt && (
+                    <div style={{ fontSize:12, fontWeight:800, color:ALT_COL, marginTop:3 }}>
+                      / {d.alt}
+                    </div>
+                  )}
+                </td>
+              ))}
+            </tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Tens */}
+      <div>
+        <div style={{ fontSize:12, fontWeight:800, color:'#64748b', marginBottom:8 }}>10 – 90</div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead><tr>
+              {NUM_TENS.map(d => (
+                <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:12,
+                  fontWeight:900, color:'#334155', background:HEAD_BG,
+                  border:'1px solid #e2e8f0', minWidth:90 }}>{d.num}</th>
+              ))}
+            </tr></thead>
+            <tbody><tr>
+              {NUM_TENS.map(d => (
+                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                  border:'1px solid #e2e8f0', background:'#fff' }}>
+                  <div style={{ fontSize:15, fontWeight:900, color:accentColor }}>{d.hira}</div>
+                </td>
+              ))}
+            </tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Hundreds */}
+      <div>
+        <div style={{ fontSize:12, fontWeight:800, color:'#64748b', marginBottom:8 }}>100 – 900</div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead><tr>
+              {NUM_HUNDREDS.map(d => (
+                <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:12,
+                  fontWeight:900, color: d.special ? SPECIAL_COL : '#334155',
+                  background: d.special ? SPECIAL_BG : HEAD_BG,
+                  border:'1px solid #e2e8f0', minWidth:90 }}>{d.num}</th>
+              ))}
+            </tr></thead>
+            <tbody><tr>
+              {NUM_HUNDREDS.map(d => (
+                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                  border:'1px solid #e2e8f0', background: d.special ? SPECIAL_BG : '#fff' }}>
+                  <div style={{ fontSize:15, fontWeight:900,
+                    color: d.special ? SPECIAL_COL : accentColor }}>{d.hira}</div>
+                </td>
+              ))}
+            </tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Thousands */}
+      <div>
+        <div style={{ fontSize:12, fontWeight:800, color:'#64748b', marginBottom:8 }}>1,000 – 10,000</div>
+        <div style={{ overflowX:'auto' }}>
+          <table style={{ borderCollapse:'collapse' }}>
+            <thead><tr>
+              {NUM_THOUSANDS.map(d => (
+                <th key={d.num} style={{ padding:'6px 10px', textAlign:'center', fontSize:12,
+                  fontWeight:900, color: d.special ? SPECIAL_COL : '#334155',
+                  background: d.special ? SPECIAL_BG : HEAD_BG,
+                  border:'1px solid #e2e8f0', minWidth:90 }}>{d.num}</th>
+              ))}
+            </tr></thead>
+            <tbody><tr>
+              {NUM_THOUSANDS.map(d => (
+                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                  border:'1px solid #e2e8f0', background: d.special ? SPECIAL_BG : '#fff' }}>
+                  <div style={{ fontSize:15, fontWeight:900,
+                    color: d.special ? SPECIAL_COL : accentColor }}>{d.hira}</div>
+                </td>
+              ))}
+            </tr></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 // Hour counter (じ) readings
 const JI_DATA = [
   { num: 1,  hira: 'いちじ',       special: false },
@@ -322,6 +513,8 @@ export default function WordPage() {
     baseWords.some(w => DATE_SET.has(w.jp)), [baseWords]);
   const showTimeCounters = useMemo(() =>
     baseWords.some(w => w.jp === 'ーじ' || w.jp === 'ーふん'), [baseWords]);
+  const showNumbers = useMemo(() =>
+    baseWords.some(w => w.jp === 'ひゃく' && w.type === 'ตัวเลข'), [baseWords]);
 
   // Card-grid types
   const CARD_GRID_TYPES = new Set(['อาหาร', 'ยานพาหนะ', 'คน']);
@@ -427,6 +620,14 @@ export default function WordPage() {
             <div style={{ background:'#fff', borderRadius:16, border:'1px solid #e2e8f0', overflow:'hidden' }}>
               <DateGrid words={dateWords} />
             </div>
+          </section>
+        )}
+
+        {/* ── Number reference table ── */}
+        {showNumbers && (
+          <section>
+            <SectionHeader title="🔢 ตารางตัวเลข 1 – 10,000" color={accentColor} />
+            <NumberTable accentColor={accentColor} />
           </section>
         )}
 
