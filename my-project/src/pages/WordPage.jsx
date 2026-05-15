@@ -180,6 +180,73 @@ function DateGrid({ words }) {
   );
 }
 
+// Country / Nationality / Language reference
+const COUNTRY_LANG_DATA = [
+  { c:'アメリカ',       cTh:'สหรัฐอเมริกา',     p:'アメリカ人',        l:'英語',         lH:'えいご',         lTh:'ภาษาอังกฤษ'   },
+  { c:'イギリス',       cTh:'อังกฤษ',            p:'イギリス人',        l:'英語',         lH:'えいご',         lTh:'ภาษาอังกฤษ'   },
+  { c:'イタリア',       cTh:'อิตาลี',            p:'イタリア人',        l:'イタリア語',   lH:null,             lTh:'ภาษาอิตาเลียน'},
+  { c:'イラン',         cTh:'อิหร่าน',           p:'イラン人',          l:'ペルシア語',   lH:null,             lTh:'ภาษาเปอร์เซีย'},
+  { c:'インド',         cTh:'อินเดีย',           p:'インド人',          l:'ヒンディー語', lH:null,             lTh:'ภาษาฮินดี'     },
+  { c:'インドネシア',   cTh:'อินโดนีเซีย',       p:'インドネシア人',    l:'インドネシア語',lH:null,            lTh:'ภาษาอินโดนีเซีย'},
+  { c:'エジプト',       cTh:'อียิปต์',           p:'エジプト人',        l:'アラビア語',   lH:null,             lTh:'ภาษาอาหรับ'   },
+  { c:'オーストラリア', cTh:'ออสเตรเลีย',        p:'オーストラリア人',  l:'英語',         lH:'えいご',         lTh:'ภาษาอังกฤษ'   },
+  { c:'カナダ',         cTh:'แคนาดา',            p:'カナダ人',          l:'英語 / フランス語', lH:'えいご',     lTh:'ภาษาอังกฤษ / ฝรั่งเศส'},
+  { c:'韓国',           cH:'かんこく', cTh:'เกาหลีใต้', p:'韓国人',  pH:'かんこくじん', l:'韓国語',      lH:'かんこくご',     lTh:'ภาษาเกาหลี'   },
+  { c:'サウジアラビア', cTh:'ซาอุดีอาระเบีย',    p:'サウジアラビア人',  l:'アラビア語',   lH:null,             lTh:'ภาษาอาหรับ'   },
+  { c:'シンガポール',   cTh:'สิงคโปร์',          p:'シンガポール人',    l:'英語',         lH:'えいご',         lTh:'ภาษาอังกฤษ'   },
+  { c:'スペイン',       cTh:'สเปน',              p:'スペイン人',        l:'スペイン語',   lH:null,             lTh:'ภาษาสเปน'     },
+  { c:'タイ',           cTh:'ไทย',               p:'タイ人',            l:'タイ語',       lH:null,             lTh:'ภาษาไทย'      },
+  { c:'中国',           cH:'ちゅうごく', cTh:'จีน', p:'中国人',  pH:'ちゅうごくじん', l:'中国語',     lH:'ちゅうごくご',    lTh:'ภาษาจีน'      },
+  { c:'ドイツ',         cTh:'เยอรมนี',           p:'ドイツ人',          l:'ドイツ語',     lH:null,             lTh:'ภาษาเยอรมัน'  },
+  { c:'日本',           cH:'にほん',  cTh:'ญี่ปุ่น', p:'日本人', pH:'にほんじん',    l:'日本語',      lH:'にほんご',       lTh:'ภาษาญี่ปุ่น'  },
+  { c:'フィリピン',     cTh:'ฟิลิปปินส์',        p:'フィリピン人',      l:'フィリピノ語', lH:null,             lTh:'ภาษาฟิลิปปินส์'},
+  { c:'フランス',       cTh:'ฝรั่งเศส',          p:'フランス人',        l:'フランス語',   lH:null,             lTh:'ภาษาฝรั่งเศส' },
+  { c:'ブラジル',       cTh:'บราซิล',            p:'ブラジル人',        l:'ポルトガル語', lH:null,             lTh:'ภาษาโปรตุเกส' },
+  { c:'ベトナム',       cTh:'เวียดนาม',          p:'ベトナム人',        l:'ベトナム語',   lH:null,             lTh:'ภาษาเวียดนาม' },
+  { c:'マレーシア',     cTh:'มาเลเซีย',          p:'マレーシア人',      l:'マレーシア語', lH:null,             lTh:'ภาษามาเลย์'   },
+  { c:'メキシコ',       cTh:'เม็กซิโก',          p:'メキシコ人',        l:'スペイン語',   lH:null,             lTh:'ภาษาสเปน'     },
+  { c:'ロシア',         cTh:'รัสเซีย',           p:'ロシア人',          l:'ロシア語',     lH:null,             lTh:'ภาษารัสเซีย'  },
+];
+
+function CountryLanguageTable({ accentColor }) {
+  const TH = { padding:'10px 14px', textAlign:'left', fontSize:11, fontWeight:900,
+    color:'#94a3b8', background:'#f8fafc', borderBottom:'2px solid #e2e8f0', whiteSpace:'nowrap' };
+  return (
+    <div style={{ overflowX:'auto', borderRadius:16, border:'1px solid #e2e8f0' }}>
+      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
+        <thead>
+          <tr>
+            <th style={TH}>🌏 国 (くに) · ประเทศ</th>
+            <th style={TH}>👤 ～人 (じん) · คน / ชาว</th>
+            <th style={TH}>💬 ことば · ภาษา</th>
+          </tr>
+        </thead>
+        <tbody>
+          {COUNTRY_LANG_DATA.map((d, i) => (
+            <tr key={i} style={{ borderBottom:'1px solid #f1f5f9',
+              background: i % 2 === 0 ? '#fff' : '#fafafa' }}>
+              <td style={{ padding:'10px 14px' }}>
+                <div style={{ fontSize:18, fontWeight:900, color:'#1e293b' }}>{d.c}</div>
+                {d.cH && <div style={{ fontSize:11, color:'#64748b' }}>{d.cH}</div>}
+                <div style={{ fontSize:12, color:'#94a3b8' }}>{d.cTh}</div>
+              </td>
+              <td style={{ padding:'10px 14px' }}>
+                <div style={{ fontSize:18, fontWeight:900, color:accentColor }}>{d.p}</div>
+                {d.pH && <div style={{ fontSize:11, color:'#64748b' }}>{d.pH}</div>}
+              </td>
+              <td style={{ padding:'10px 14px' }}>
+                <div style={{ fontSize:16, fontWeight:800, color:'#1e293b' }}>{d.l}</div>
+                {d.lH && <div style={{ fontSize:11, color:'#64748b' }}>{d.lH}</div>}
+                <div style={{ fontSize:12, color:'#94a3b8' }}>{d.lTh}</div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 // Number reference data
 const NUM_BASIC = [
   { num: 1,  hira: 'いち',   romaji: 'ichi',   th: 'หนึ่ง', alt: null,     altRomaji: null   },
@@ -529,6 +596,8 @@ export default function WordPage() {
     baseWords.some(w => w.jp === 'ーじ' || w.jp === 'ーふん'), [baseWords]);
   const showNumbers = useMemo(() =>
     baseWords.some(w => w.jp === 'ひゃく' && w.type === 'ตัวเลข'), [baseWords]);
+  const showCountryTable = useMemo(() =>
+    baseWords.some(w => w.jp === 'アメリカ' && w.type === 'ประเทศ'), [baseWords]);
 
   // Card-grid types
   const CARD_GRID_TYPES = new Set(['อาหาร', 'ยานพาหนะ', 'คน']);
@@ -634,6 +703,14 @@ export default function WordPage() {
             <div style={{ background:'#fff', borderRadius:16, border:'1px solid #e2e8f0', overflow:'hidden' }}>
               <DateGrid words={dateWords} />
             </div>
+          </section>
+        )}
+
+        {/* ── Country / Nationality / Language table ── */}
+        {showCountryTable && (
+          <section>
+            <SectionHeader title="🌏 ตาราง ประเทศ · สัญชาติ · ภาษา" color={accentColor} />
+            <CountryLanguageTable accentColor={accentColor} />
           </section>
         )}
 
