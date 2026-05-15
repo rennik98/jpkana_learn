@@ -182,46 +182,50 @@ function DateGrid({ words }) {
 
 // Number reference data
 const NUM_BASIC = [
-  { num: 1,  hira: 'いち',       alt: null },
-  { num: 2,  hira: 'に',         alt: null },
-  { num: 3,  hira: 'さん',       alt: null },
-  { num: 4,  hira: 'し',         alt: 'よん' },
-  { num: 5,  hira: 'ご',         alt: null },
-  { num: 6,  hira: 'ろく',       alt: null },
-  { num: 7,  hira: 'しち',       alt: 'なな' },
-  { num: 8,  hira: 'はち',       alt: null },
-  { num: 9,  hira: 'く',         alt: 'きゅう' },
-  { num: 10, hira: 'じゅう',     alt: null },
+  { num: 1,  hira: 'いち',   romaji: 'ichi',   th: 'หนึ่ง', alt: null,     altRomaji: null   },
+  { num: 2,  hira: 'に',     romaji: 'ni',     th: 'สอง',   alt: null,     altRomaji: null   },
+  { num: 3,  hira: 'さん',   romaji: 'san',    th: 'สาม',   alt: null,     altRomaji: null   },
+  { num: 4,  hira: 'し',     romaji: 'shi',    th: 'สี่',   alt: 'よん',   altRomaji: 'yon'  },
+  { num: 5,  hira: 'ご',     romaji: 'go',     th: 'ห้า',   alt: null,     altRomaji: null   },
+  { num: 6,  hira: 'ろく',   romaji: 'roku',   th: 'หก',    alt: null,     altRomaji: null   },
+  { num: 7,  hira: 'しち',   romaji: 'shichi', th: 'เจ็ด',  alt: 'なな',   altRomaji: 'nana' },
+  { num: 8,  hira: 'はち',   romaji: 'hachi',  th: 'แปด',   alt: null,     altRomaji: null   },
+  { num: 9,  hira: 'く',     romaji: 'ku',     th: 'เก้า',  alt: 'きゅう', altRomaji: 'kyuu' },
+  { num: 10, hira: 'じゅう', romaji: 'juu',    th: 'สิบ',   alt: null,     altRomaji: null   },
 ];
 const NUM_TENS = [
-  { num: 10, hira: 'じゅう' }, { num: 20, hira: 'にじゅう' },
-  { num: 30, hira: 'さんじゅう' }, { num: 40, hira: 'よんじゅう' },
-  { num: 50, hira: 'ごじゅう' }, { num: 60, hira: 'ろくじゅう' },
-  { num: 70, hira: 'ななじゅう' }, { num: 80, hira: 'はちじゅう' },
-  { num: 90, hira: 'きゅうじゅう' },
+  { num: 10, hira: 'じゅう',       romaji: 'juu',      th: 'สิบ'     },
+  { num: 20, hira: 'にじゅう',     romaji: 'nijuu',    th: 'ยี่สิบ'  },
+  { num: 30, hira: 'さんじゅう',   romaji: 'sanjuu',   th: 'สามสิบ'  },
+  { num: 40, hira: 'よんじゅう',   romaji: 'yonjuu',   th: 'สี่สิบ'  },
+  { num: 50, hira: 'ごじゅう',     romaji: 'gojuu',    th: 'ห้าสิบ'  },
+  { num: 60, hira: 'ろくじゅう',   romaji: 'rokujuu',  th: 'หกสิบ'   },
+  { num: 70, hira: 'ななじゅう',   romaji: 'nanajuu',  th: 'เจ็ดสิบ' },
+  { num: 80, hira: 'はちじゅう',   romaji: 'hachijuu', th: 'แปดสิบ'  },
+  { num: 90, hira: 'きゅうじゅう', romaji: 'kyuujuu',  th: 'เก้าสิบ' },
 ];
 const NUM_HUNDREDS = [
-  { num: 100, hira: 'ひゃく',     special: false },
-  { num: 200, hira: 'にひゃく',   special: false },
-  { num: 300, hira: 'さんびゃく', special: true  },
-  { num: 400, hira: 'よんひゃく', special: false },
-  { num: 500, hira: 'ごひゃく',   special: false },
-  { num: 600, hira: 'ろっぴゃく', special: true  },
-  { num: 700, hira: 'ななひゃく', special: false },
-  { num: 800, hira: 'はっぴゃく', special: true  },
-  { num: 900, hira: 'きゅうひゃく', special: false },
+  { num: 100, hira: 'ひゃく',       romaji: 'hyaku',    th: 'หนึ่งร้อย', special: false },
+  { num: 200, hira: 'にひゃく',     romaji: 'nihyaku',  th: 'สองร้อย',   special: false },
+  { num: 300, hira: 'さんびゃく',   romaji: 'sanbyaku', th: 'สามร้อย',   special: true  },
+  { num: 400, hira: 'よんひゃく',   romaji: 'yonhyaku', th: 'สี่ร้อย',   special: false },
+  { num: 500, hira: 'ごひゃく',     romaji: 'gohyaku',  th: 'ห้าร้อย',   special: false },
+  { num: 600, hira: 'ろっぴゃく',   romaji: 'roppyaku', th: 'หกร้อย',    special: true  },
+  { num: 700, hira: 'ななひゃく',   romaji: 'nanahyaku',th: 'เจ็ดร้อย',  special: false },
+  { num: 800, hira: 'はっぴゃく',   romaji: 'happyaku', th: 'แปดร้อย',   special: true  },
+  { num: 900, hira: 'きゅうひゃく', romaji: 'kyuuhyaku',th: 'เก้าร้อย',  special: false },
 ];
 const NUM_THOUSANDS = [
-  { num: '1,000',  hira: 'せん',         special: false },
-  { num: '2,000',  hira: 'にせん',       special: false },
-  { num: '3,000',  hira: 'さんぜん',     special: true  },
-  { num: '4,000',  hira: 'よんせん',     special: false },
-  { num: '5,000',  hira: 'ごせん',       special: false },
-  { num: '6,000',  hira: 'ろくせん',     special: false },
-  { num: '7,000',  hira: 'ななせん',     special: false },
-  { num: '8,000',  hira: 'はっせん',     special: true  },
-  { num: '9,000',  hira: 'きゅうせん',   special: false },
-  { num: '10,000', hira: 'いちまん',     special: false },
+  { num: '1,000',  hira: 'せん',       romaji: 'sen',     th: 'หนึ่งพัน',  special: false },
+  { num: '2,000',  hira: 'にせん',     romaji: 'nisen',   th: 'สองพัน',    special: false },
+  { num: '3,000',  hira: 'さんぜん',   romaji: 'sanzen',  th: 'สามพัน',    special: true  },
+  { num: '4,000',  hira: 'よんせん',   romaji: 'yonsen',  th: 'สี่พัน',    special: false },
+  { num: '5,000',  hira: 'ごせん',     romaji: 'gosen',   th: 'ห้าพัน',    special: false },
+  { num: '6,000',  hira: 'ろくせん',   romaji: 'rokusen', th: 'หกพัน',     special: false },
+  { num: '7,000',  hira: 'ななせん',   romaji: 'nanasen', th: 'เจ็ดพัน',   special: false },
+  { num: '8,000',  hira: 'はっせん',   romaji: 'hassen',  th: 'แปดพัน',    special: true  },
+  { num: '9,000',  hira: 'きゅうせん', romaji: 'kyuusen', th: 'เก้าพัน',   special: false },
+  { num: '10,000', hira: 'いちまん',   romaji: 'ichiman', th: 'หนึ่งหมื่น',special: false },
 ];
 
 function NumberTable({ accentColor }) {
@@ -276,14 +280,14 @@ function NumberTable({ accentColor }) {
             </tr></thead>
             <tbody><tr>
               {NUM_BASIC.map(d => (
-                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                <td key={d.num} style={{ padding:'8px', textAlign:'center',
                   border:'1px solid #e2e8f0', background:'#fff' }}>
                   <div style={{ fontSize:15, fontWeight:900, color:accentColor }}>{d.hira}</div>
-                  {d.alt && (
-                    <div style={{ fontSize:12, fontWeight:800, color:ALT_COL, marginTop:3 }}>
-                      / {d.alt}
-                    </div>
-                  )}
+                  {d.alt && <div style={{ fontSize:12, fontWeight:800, color:ALT_COL }}>/ {d.alt}</div>}
+                  <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>
+                    {d.romaji}{d.altRomaji ? ` / ${d.altRomaji}` : ''}
+                  </div>
+                  <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
                 </td>
               ))}
             </tr></tbody>
@@ -305,9 +309,11 @@ function NumberTable({ accentColor }) {
             </tr></thead>
             <tbody><tr>
               {NUM_TENS.map(d => (
-                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                <td key={d.num} style={{ padding:'8px', textAlign:'center',
                   border:'1px solid #e2e8f0', background:'#fff' }}>
                   <div style={{ fontSize:15, fontWeight:900, color:accentColor }}>{d.hira}</div>
+                  <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>{d.romaji}</div>
+                  <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
                 </td>
               ))}
             </tr></tbody>
@@ -330,10 +336,12 @@ function NumberTable({ accentColor }) {
             </tr></thead>
             <tbody><tr>
               {NUM_HUNDREDS.map(d => (
-                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                <td key={d.num} style={{ padding:'8px', textAlign:'center',
                   border:'1px solid #e2e8f0', background: d.special ? SPECIAL_BG : '#fff' }}>
                   <div style={{ fontSize:15, fontWeight:900,
                     color: d.special ? SPECIAL_COL : accentColor }}>{d.hira}</div>
+                  <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>{d.romaji}</div>
+                  <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
                 </td>
               ))}
             </tr></tbody>
@@ -356,10 +364,12 @@ function NumberTable({ accentColor }) {
             </tr></thead>
             <tbody><tr>
               {NUM_THOUSANDS.map(d => (
-                <td key={d.num} style={{ padding:'10px 8px', textAlign:'center',
+                <td key={d.num} style={{ padding:'8px', textAlign:'center',
                   border:'1px solid #e2e8f0', background: d.special ? SPECIAL_BG : '#fff' }}>
                   <div style={{ fontSize:15, fontWeight:900,
                     color: d.special ? SPECIAL_COL : accentColor }}>{d.hira}</div>
+                  <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>{d.romaji}</div>
+                  <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
                 </td>
               ))}
             </tr></tbody>
@@ -373,36 +383,36 @@ function NumberTable({ accentColor }) {
 
 // Hour counter (じ) readings
 const JI_DATA = [
-  { num: 1,  hira: 'いちじ',       special: false },
-  { num: 2,  hira: 'にじ',         special: false },
-  { num: 3,  hira: 'さんじ',       special: false },
-  { num: 4,  hira: 'よじ',         special: true  },
-  { num: 5,  hira: 'ごじ',         special: false },
-  { num: 6,  hira: 'ろくじ',       special: false },
-  { num: 7,  hira: 'しちじ',       special: true  },
-  { num: 8,  hira: 'はちじ',       special: false },
-  { num: 9,  hira: 'くじ',         special: true  },
-  { num: 10, hira: 'じゅうじ',     special: false },
-  { num: 11, hira: 'じゅういちじ', special: false },
-  { num: 12, hira: 'じゅうにじ',   special: false },
+  { num: 1,  hira: 'いちじ',       romaji: 'ichi-ji',    th: '1 นาฬิกา',  special: false },
+  { num: 2,  hira: 'にじ',         romaji: 'ni-ji',      th: '2 นาฬิกา',  special: false },
+  { num: 3,  hira: 'さんじ',       romaji: 'san-ji',     th: '3 นาฬิกา',  special: false },
+  { num: 4,  hira: 'よじ',         romaji: 'yo-ji',      th: '4 นาฬิกา',  special: true  },
+  { num: 5,  hira: 'ごじ',         romaji: 'go-ji',      th: '5 นาฬิกา',  special: false },
+  { num: 6,  hira: 'ろくじ',       romaji: 'roku-ji',    th: '6 นาฬิกา',  special: false },
+  { num: 7,  hira: 'しちじ',       romaji: 'shichi-ji',  th: '7 นาฬิกา',  special: true  },
+  { num: 8,  hira: 'はちじ',       romaji: 'hachi-ji',   th: '8 นาฬิกา',  special: false },
+  { num: 9,  hira: 'くじ',         romaji: 'ku-ji',      th: '9 นาฬิกา',  special: true  },
+  { num: 10, hira: 'じゅうじ',     romaji: 'juu-ji',     th: '10 นาฬิกา', special: false },
+  { num: 11, hira: 'じゅういちじ', romaji: 'juuichi-ji', th: '11 นาฬิกา', special: false },
+  { num: 12, hira: 'じゅうにじ',   romaji: 'juuni-ji',   th: '12 นาฬิกา', special: false },
 ];
 
-// Minute counter (ふん/ぷん) readings
+// Minute counter (ふん/ぷん) readings — ふん: 2,5,7,9 · ぷน: others
 const FUN_DATA = [
-  { num: 1,  hira: 'いっぷん',           pun: true  },
-  { num: 2,  hira: 'にふん',             pun: false },
-  { num: 3,  hira: 'さんぷん',           pun: true  },
-  { num: 4,  hira: 'よんふん',           pun: false },
-  { num: 5,  hira: 'ごふん',             pun: false },
-  { num: 6,  hira: 'ろっぷん',           pun: true  },
-  { num: 7,  hira: 'ななふん',           pun: false },
-  { num: 8,  hira: 'はっぷん',           pun: true  },
-  { num: 9,  hira: 'きゅうふん',         pun: false },
-  { num: 10, hira: 'じゅっぷん',         pun: true  },
-  { num: 15, hira: 'じゅうごふん',       pun: false },
-  { num: 20, hira: 'にじゅっぷん',       pun: true  },
-  { num: 30, hira: 'さんじゅっぷん',     pun: true  },
-  { num: 45, hira: 'よんじゅうごふん',   pun: false },
+  { num: 1,  hira: 'いっぷん',         romaji: 'ippun',       th: '1 นาที',  pun: true  },
+  { num: 2,  hira: 'にふん',           romaji: 'nifun',       th: '2 นาที',  pun: false },
+  { num: 3,  hira: 'さんぷん',         romaji: 'sanpun',      th: '3 นาที',  pun: true  },
+  { num: 4,  hira: 'よんぷん',         romaji: 'yonpun',      th: '4 นาที',  pun: true  },
+  { num: 5,  hira: 'ごふん',           romaji: 'gofun',       th: '5 นาที',  pun: false },
+  { num: 6,  hira: 'ろっぷん',         romaji: 'roppun',      th: '6 นาที',  pun: true  },
+  { num: 7,  hira: 'ななふん',         romaji: 'nanafun',     th: '7 นาที',  pun: false },
+  { num: 8,  hira: 'はっぷん',         romaji: 'happun',      th: '8 นาที',  pun: true  },
+  { num: 9,  hira: 'きゅうふん',       romaji: 'kyuufun',     th: '9 นาที',  pun: false },
+  { num: 10, hira: 'じゅっぷん',       romaji: 'juppun',      th: '10 นาที', pun: true  },
+  { num: 15, hira: 'じゅうごふん',     romaji: 'juugofun',    th: '15 นาที', pun: false },
+  { num: 20, hira: 'にじゅっぷん',     romaji: 'nijuppun',    th: '20 นาที', pun: true  },
+  { num: 30, hira: 'さんじゅっぷん',   romaji: 'sanjuppun',   th: '30 นาที', pun: true  },
+  { num: 45, hira: 'よんじゅうごふん', romaji: 'yonjuugofun', th: '45 นาที', pun: false },
 ];
 
 function TimeCounterTable({ accentColor }) {
@@ -432,10 +442,12 @@ function TimeCounterTable({ accentColor }) {
             <tbody>
               <tr>
                 {JI_DATA.map(d => (
-                  <td key={d.num} style={{ padding:'10px', textAlign:'center',
+                  <td key={d.num} style={{ padding:'8px', textAlign:'center',
                     border:'1px solid #e2e8f0', background: d.special ? '#fef9c3' : '#fff' }}>
-                    <div style={{ fontSize:16, fontWeight:900,
+                    <div style={{ fontSize:15, fontWeight:900,
                       color: d.special ? '#b45309' : accentColor }}>{d.hira}</div>
+                    <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>{d.romaji}</div>
+                    <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
                   </td>
                 ))}
               </tr>
@@ -449,9 +461,9 @@ function TimeCounterTable({ accentColor }) {
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12, flexWrap:'wrap' }}>
           <span style={{ fontSize:13, fontWeight:800, color:'#475569' }}>⏱ — ふん / ぷん (分) · อ่านนาที</span>
           <span style={{ background:'#fff7ed', color:'#c2410c', fontSize:10, fontWeight:800,
-            borderRadius:6, padding:'2px 8px' }}>🟠 ぷん</span>
+            borderRadius:6, padding:'2px 8px' }}>🟠 ぷん (1,3,4,6,8,10,20,30)</span>
           <span style={{ background:'#eff6ff', color:'#1d4ed8', fontSize:10, fontWeight:800,
-            borderRadius:6, padding:'2px 8px' }}>🔵 ふん</span>
+            borderRadius:6, padding:'2px 8px' }}>🔵 ふん (2,5,7,9)</span>
         </div>
         <div style={{ overflowX:'auto' }}>
           <table style={{ borderCollapse:'collapse' }}>
@@ -468,11 +480,13 @@ function TimeCounterTable({ accentColor }) {
             <tbody>
               <tr>
                 {FUN_DATA.map(d => (
-                  <td key={d.num} style={{ padding:'10px', textAlign:'center',
+                  <td key={d.num} style={{ padding:'8px', textAlign:'center',
                     border:'1px solid #e2e8f0', background: d.pun ? '#fff7ed' : '#eff6ff' }}>
-                    <div style={{ fontSize:16, fontWeight:900,
+                    <div style={{ fontSize:15, fontWeight:900,
                       color: d.pun ? '#c2410c' : '#1d4ed8' }}>{d.hira}</div>
-                    <div style={{ fontSize:10, fontWeight:800, marginTop:3,
+                    <div style={{ fontSize:10, color:'#64748b', marginTop:2 }}>{d.romaji}</div>
+                    <div style={{ fontSize:10, color:'#94a3b8', marginTop:1 }}>{d.th}</div>
+                    <div style={{ fontSize:9, fontWeight:800, marginTop:2,
                       color: d.pun ? '#c2410c' : '#1d4ed8' }}>{d.pun ? 'ぷん' : 'ふん'}</div>
                   </td>
                 ))}
