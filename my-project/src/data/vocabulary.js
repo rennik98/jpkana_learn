@@ -248,6 +248,8 @@ export const ALL_VOCAB = [
   { jp: 'ええ', th: 'ครับ / ค่ะ', en: 'Yes (casual)', romaji: 'ee', lesson: 6, type: 'สำนวน' },
   { jp: 'いいですね', th: 'ดีจริง / ดีนะ', en: 'That sounds good', romaji: 'ii desu ne', lesson: 6, type: 'สำนวน' },
   { jp: 'わかりました', th: 'เข้าใจแล้ว', en: 'I understand / Got it', romaji: 'wakarimashita', lesson: 6, type: 'สำนวน' },
+  { jp: '～ませんか', th: '~ ไหมครับ/คะ (ชวนให้ทำ)', en: 'Won\'t you ~? / Would you like to ~?', romaji: '~masen ka', lesson: 6, type: 'ไวยากรณ์' },
+  { jp: '～ましょう', th: 'มา ~ กันเถอะ / ~ กันเถอะ', en: 'Let\'s ~! (suggestion)', romaji: '~mashou', lesson: 6, type: 'ไวยากรณ์' },
 
   // ── Kanji ─────────────────────────────────────────────────────────────────
   // Basic kanji (Lesson 1 context)
